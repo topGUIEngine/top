@@ -21,6 +21,7 @@ Insert Info Here
  <li>Mateusz Wiater</li>
  <li>Sam Schneller</li>
  <li>Calvin Lawrence</li>
+ <li>Andres Ramos</li>
 </ul>
 #### Goals
 Insert Info Here
