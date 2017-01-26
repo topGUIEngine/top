@@ -60,10 +60,10 @@ Insert Info Here
 ### Usability
 #### Members
 <ul>
- <li></li>
- <li></li>
- <li></li>
- <li></li>
+ <li>Ashley Lefebvre</li>
+ <li>Christian Damico</li>
+ <li>Conner Gannon</li>
+ <li>Christopher Jankovski</li>
 </ul>
 #### Goals
 Insert Info Here
