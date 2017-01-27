@@ -24,7 +24,7 @@ To determine and document the agreed upon requirements for the project, making a
  <li>Andres Ramos</li>
 </ul>
 #### Goals
-Insert Info Here
+Store all necessary data in a structure that is easy and efficient to access.
 
 ### Database
 #### Members
