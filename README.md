@@ -12,7 +12,7 @@ Open source implementation of clicker software
  <li>Logan Wells</li>
 </ul>
 #### Goals
-Insert Info Here
+To determine and document the agreed upon requirements for the project, making adjustments when appropriate.
 
 ### QA
 #### Members
