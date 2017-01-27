@@ -69,7 +69,7 @@ Insert Info Here
 <ul>
  <li>Ashley Lefebvre</li>
  <li>Christian Damico</li>
- <li>Conner Gannon</li>
+ <li>Connor Gannon</li>
  <li>Christopher Jankovski</li>
 </ul>
 #### Goals
