@@ -29,10 +29,11 @@ Insert Info Here
 ### Database
 #### Members
 <ul>
- <li></li>
- <li></li>
- <li></li>
- <li></li>
+ <li>Josh Post</li>
+ <li>Ricky Rojas</li>
+ <li>Matt Wu</li>
+ <li>Akeem Davis</li>
+ <li>Keith Martin</li>
 </ul>
 #### Goals
 Insert Info Here
