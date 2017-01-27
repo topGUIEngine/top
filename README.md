@@ -40,10 +40,13 @@ Insert Info Here
 ### GUI
 #### Members
 <ul>
- <li></li>
- <li></li>
- <li></li>
- <li></li>
+ <li>Paul Kwoyelo</li>
+ <li>Mike Mekker</li>
+ <li>Lincoln Daniel</li>
+ <li>Mike Cavatai</li>
+ <li>Jamie Garcia</li>
+ <li>Francisco Ovalle</li>
+ <li>Tyler Moson</li>
 </ul>
 #### Goals
 Insert Info Here
