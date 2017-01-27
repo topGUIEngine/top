@@ -6,10 +6,10 @@ Open source implementation of clicker software
 ### Requirements
 #### Members
 <ul>
- <li></li>
- <li></li>
- <li></li>
- <li></li>
+ <li>Malik Riddle</li>
+ <li>Kenny Roffo</li>
+ <li>Ryan Staring</li>
+ <li>Logan Wells</li>
 </ul>
 #### Goals
 Insert Info Here
