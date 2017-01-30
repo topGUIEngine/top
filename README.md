@@ -74,4 +74,4 @@ Insert Info Here
  <li>Christopher Jankovski</li>
 </ul>
 #### Goals
-Insert Info Here
+Focused on evaluating the quality of a user's experience when interacting with a product or system. Tests, analyzes and reports results, and makes recommendations to improve effectiveness, efficiency, and overall satisfaction of the user.
