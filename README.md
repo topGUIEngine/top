@@ -11,7 +11,7 @@ Open source implementation of clicker software
  <li>Ryan Staring</li>
  <li>Logan Wells</li>
 </ul>
-#### Goals
+#### Purpose
 To determine and document the agreed upon requirements for the project, making adjustments when appropriate.
 
 ### QA
@@ -23,7 +23,7 @@ To determine and document the agreed upon requirements for the project, making a
  <li>Calvin Lawrence</li>
  <li>Andres Ramos</li>
 </ul>
-#### Goals
+#### Purpose
 Store all necessary data in a structure that is easy and efficient to access.
 
 ### Database
@@ -35,7 +35,7 @@ Store all necessary data in a structure that is easy and efficient to access.
  <li>Akeem Davis</li>
  <li>Keith Martin</li>
 </ul>
-#### Goals
+#### Purpose
 Insert Info Here
 
 ### GUI
@@ -49,7 +49,7 @@ Insert Info Here
  <li>Francisco Ovalle</li>
  <li>Tyler Moson</li>
 </ul>
-#### Goals
+#### Purpose
 Insert Info Here
 
 ### Engine
@@ -62,7 +62,7 @@ Insert Info Here
  <li>Zach Sabin</li>
  <li>Jeff Registre</li>
 </ul>
-#### Goals
+#### Purpose
 Insert Info Here
 
 ### Usability
@@ -73,5 +73,5 @@ Insert Info Here
  <li>Connor Gannon</li>
  <li>Christopher Jankovski</li>
 </ul>
-#### Goals
+#### Purpose
 Focused on evaluating the quality of a user's experience when interacting with a product or system. Tests, analyzes and reports results, and makes recommendations to improve effectiveness, efficiency, and overall satisfaction of the user.
