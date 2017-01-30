@@ -44,13 +44,13 @@ Insert Info Here
  <li>Paul Kwoyelo</li>
  <li>Mike Mekker</li>
  <li>Lincoln Daniel</li>
- <li>Mike Cavatai</li>
+ <li>Mike Cavataio</li>
  <li>Jamie Garcia</li>
  <li>Francisco Ovalle</li>
  <li>Tyler Moson</li>
 </ul>
 #### Purpose
-Insert Info Here
+Developing an interface for students and an interface for professors.
 
 ### Engine
 #### Members
