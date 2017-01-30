@@ -24,7 +24,7 @@ To determine and document the agreed upon requirements for the project, making a
  <li>Andres Ramos</li>
 </ul>
 #### Purpose
-Store all necessary data in a structure that is easy and efficient to access.
+Manage software for project, and maintain code quality through use of tools, like test suites and linters, as well as other software management tools, such as Gantt charts and Waffle.io.
 
 ### Database
 #### Members
@@ -36,7 +36,7 @@ Store all necessary data in a structure that is easy and efficient to access.
  <li>Keith Martin</li>
 </ul>
 #### Purpose
-Insert Info Here
+Store all necessary data in a structure that is easy and efficient to access.
 
 ### GUI
 #### Members
