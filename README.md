@@ -1,5 +1,5 @@
 [![Stories in Ready](https://badge.waffle.io/sschneller/open-clicker.png?label=ready&title=Ready)](https://waffle.io/sschneller/open-clicker)
-# open-clicker
+# Open Clicker
 Open source implementation of clicker software
 
 ## Teams
