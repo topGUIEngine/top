@@ -1,4 +1,4 @@
-package open.clicker
+package com.openclicker
 
 import com.example.Instructor
 import com.example.Semester

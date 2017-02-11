@@ -1,4 +1,4 @@
-package open.clicker
+package com.openclicker
 
 class UrlMappings {
 
