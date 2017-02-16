@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/sschneller/open-clicker.png?label=ready&title=Ready)](https://waffle.io/sschneller/open-clicker)
+[![Stories in Ready](https://badge.waffle.io/CSC480/laker-polling.png?label=ready&title=Ready)](https://waffle.io/CSC480/laker-polling)
 # Laker Polling
 Open source implementation of clicker software
 
