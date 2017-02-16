@@ -63,7 +63,7 @@ Developing an interface for students and an interface for professors.
  <li>Jeff Registre</li>
 </ul>
 #### Purpose
-Insert Info Here
+Developing a RESTful (Representational State Transfer) web service that the front end can interface with. This is being done in Groovy on Grails, which is an open source web framework that runs on the JVM stack.
 
 ### Usability
 #### Members
