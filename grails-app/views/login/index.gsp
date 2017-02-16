@@ -15,7 +15,7 @@
 
 <div id="signInBtn"></div>
 
-<button id="testme" class="btn btn-lg btn-primary">Click me</button>
+<a id="testme" class="btn btn-lg btn-primary" href="${createLink([controller: 'login', action: 'authenticate'])}">Click me</a>
 
 %{--<div class="g-signin2"  data-theme="dark"></div>--}%
 
@@ -54,7 +54,7 @@
 
 <script>
 
-    function onLoaded() {
+    /*function onLoaded() {
         var signInManager = new Authenticator(
             function (profile) {
                 console.log("Callled");
@@ -82,7 +82,7 @@
                 console.log('it is done');
             })
         });
-    }
+    }*/
 
 
 </script>

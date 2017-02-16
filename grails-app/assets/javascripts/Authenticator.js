@@ -78,7 +78,6 @@ var Authenticator = (function () {
     /**
      * Call this method to initialise the oAuth2 for login.
      *
-     * @param onSignin - A callback function that will be called after a user
      * has completed google signin.
      */
     Authenticator.prototype.initialise = function () {
@@ -91,15 +90,12 @@ var Authenticator = (function () {
 
                 //user is signed in
                 if (auth2.isSignedIn.get() == true) {
-                    console.log("logged in");
                     if (cur.onSignin) {
-                        console.log("dddddd");
                         cur.onSignin(transcribeUserData());
                     }
                 }
                 // user not signed in
                 else {
-                    console.log("not logged in");
                     if (cur.onSignout) {
                         cur.onSignout();
                     }

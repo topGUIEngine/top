@@ -46,11 +46,9 @@ dependencies {
     compile "org.hibernate:hibernate-core:5.1.2.Final"
     compile "org.hibernate:hibernate-ehcache:5.1.2.Final"
     compile 'com.google.api-client:google-api-client:1.22.0'
-
-
-//    compile 'org.grails.plugins:spring-security-core:3.1.1'
-  //  compile 'org.grails.plugins:spring-security-oauth2:1.1.0'
-    //compile 'org.grails.plugins:spring-security-oauth2-google:1.1.0'
+    compile group: 'com.google.http-client', name: 'google-http-client-jackson', version: '1.22.0'
+    compile group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7.1'
+    compile 'org.grails.plugins:jasypt-encryption:2.0.2'
 
     console "org.grails:grails-console"
     profile "org.grails.profiles:web"
