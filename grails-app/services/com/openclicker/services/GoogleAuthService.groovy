@@ -14,6 +14,11 @@ class GoogleAuthService {
 
     def grailsApplication
 
+    /**
+     * Verifies the given id token with google.
+     * @param idTokenString - The encrypted id token string.
+     * @return An optional payload if the token was valid or empty if it was not.
+     */
     Optional<Payload> getPayloadForIdToken(String idTokenString) {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
@@ -29,6 +34,11 @@ class GoogleAuthService {
 
     }
 
+    /**
+     * Verifies the account information extracted from the payload.
+     * @param payload - The payload to get information from.
+     * @return A pair containing a boolean stating if validation passed and a message.
+     */
     Pair<Boolean, JSON> verifyAccountInfo(Payload payload) {
         JSON json
         boolean result

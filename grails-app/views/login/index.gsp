@@ -41,6 +41,7 @@
         }
 
         var auth = new Authenticator(onUserSignIn, onUserSignOut);
+
         auth.configureButton('signInBtn', {
             width: 240,
             height: 50,
