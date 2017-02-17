@@ -47,19 +47,18 @@ var Authenticator = (function () {
         return undefined;
     }
 
-    function translateServerResponse(data) {
-        return data;
-    }
-
     function queryServer(endPoint, data, onComplete) {
         $.ajax({
             url: endPoint,
-            data : data,
-            success : function (value) {
-                onComplete(translateServerResponse(value));
+            data: data,
+            success: function (value) {
+                onComplete(value);
             },
-            failure : function (error) {
-                onComplete(translateServerResponse(error));
+            failure: function (error) {
+                onComplete({
+                    success: false,
+                    message: "connection error"
+                });
             }
         });
     }
@@ -111,8 +110,8 @@ var Authenticator = (function () {
 
     };
 
-    Authenticator.prototype.configureButton = function (buttonOptions) {
-        gapi.signin2.render('signInBtn', {
+    Authenticator.prototype.configureButton = function (btnDivId, buttonOptions) {
+        gapi.signin2.render(btnDivId, {
             'width': buttonOptions.width,
             'height': buttonOptions.height,
             'longtitle': buttonOptions.longtitle,
@@ -151,11 +150,16 @@ var Authenticator = (function () {
      * @param onComplete
      */
     Authenticator.prototype.sendSigninToServer = function (onComplete) {
-        queryServer('/login/authenticate', transcribeUserData(), onComplete);
+        console.log(googleUser.getAuthResponse().id_token);
+        console.log("------------------");
+        console.log(googleUser);
+        queryServer('/login/authenticate', {
+            idToken : googleUser.getAuthResponse().id_token
+        }, onComplete);
     };
 
     Authenticator.prototype.sendSignoutToServer = function (onComplete) {
-        queryServer('/logout', googleUser.getAuthResponse().id_token, onComplete)
+        queryServer('/logout/invalidateSignin', googleUser.getAuthResponse().id_token, onComplete)
     };
 
     /**

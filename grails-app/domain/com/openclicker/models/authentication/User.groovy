@@ -6,8 +6,6 @@ class User {
     String lastName
     String email
 
-    static hasOne = [authId:OAuthId]
-
     static mapping = {
         version false
     }

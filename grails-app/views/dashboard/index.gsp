@@ -7,31 +7,36 @@
           content="460384913941-o01p3pu021rrnq6ibbanenfrmg6r87at.apps.googleusercontent.com">
     <title>Open Clicker:Dashboard</title>
     <asset:stylesheet src="bootstrap.css"/>
+    <asset:javascript src="jquery-2.2.0.min.js"/>
+    <script src="https://apis.google.com/js/platform.js?" async defer></script>
+    <asset:javascript src="Authenticator.js"/>
 </head>
 
 <body onload="onLoaded()">
 <h1>This is your dashboard</h1>
 
-<a class="btn btn-primary" onclick="signOut()" href="#">Logout</a>
+<a id="signoutbtn" class="btn btn-primary" href="#">Logout</a>
 
-<script>
-    function signOut() {
-        console.log(gapi);
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-            console.log('User signed out.');
-        });
-    }
-</script>
-<script src="https://apis.google.com/js/platform.js?" async defer></script>
 <script>
     function onLoaded() {
-        gapi.load('auth2', function () {
-            gapi.auth2.init();
-        });
+        function onSignout() {
+            auth.rejectGoogleUser(function () {
+                auth.sendSignoutToServer(function () {
+                    auth.showLoginScreen();
+                })
+            })
+        }
+
+        function onSignIn() {}
+
+        var auth = new Authenticator(onSignIn, onSignout);
+
+        document.getElementById('signoutbtn').onclick = function () {
+            auth.rejectGoogleUser();
+        }
+
     }
 </script>
-
 </body>
 
 </html>

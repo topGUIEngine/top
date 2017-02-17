@@ -4,7 +4,14 @@ import grails.converters.JSON
 
 class LogoutController {
 
-    def index(String idToken) {
-        render(["id" : idToken] as JSON)
+    def authenticatorService
+
+    def invalidateSignin() {
+        authenticatorService.signOutCurrentUser(session)
+        render ([
+                "success" : "true",
+                "message" : "ok"
+        ] as JSON)
     }
+
 }
