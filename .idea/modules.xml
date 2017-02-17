@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open-clicker.iml" filepath="$PROJECT_DIR$/.idea/modules/open-clicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open-clicker_integrationTest.iml" filepath="$PROJECT_DIR$/.idea/modules/open-clicker_integrationTest.iml" group="open-clicker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open-clicker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/open-clicker_main.iml" group="open-clicker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open-clicker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/open-clicker_test.iml" group="open-clicker" />
+    </modules>
+  </component>
+</project>

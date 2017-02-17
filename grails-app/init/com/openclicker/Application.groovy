@@ -1,4 +1,4 @@
-package open.clicker
+package com.openclicker
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
