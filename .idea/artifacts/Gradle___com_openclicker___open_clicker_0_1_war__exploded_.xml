@@ -38,6 +38,7 @@
           <element id="library" level="project" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.21" />
           <element id="library" level="project" name="Gradle: com.bertramlabs.plugins:asset-pipeline-grails:2.11.6" />
           <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot:1.4.2.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.postgresql:postgresql:9.4.1212.jre7" />
           <element id="library" level="project" name="Gradle: xalan:serializer:2.7.2" />
           <element id="library" level="project" name="Gradle: org.codehaus.groovy:groovy:2.4.7" />
           <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.21" />
@@ -176,7 +177,6 @@
           <element id="library" level="project" name="Gradle: com.google.guava:guava:19.0" />
           <element id="library" level="project" name="Gradle: com.goldmansachs:gs-collections-api:5.1.0" />
           <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:2.5.0" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.postgresql/postgresql/9.4.1212.jre7/7101612950488be0ff6882bcc27aa0f0a4c202dd/postgresql-9.4.1212.jre7.jar" />
         </element>
       </element>
     </root>
