@@ -53,10 +53,10 @@ dependencies {
     console "org.grails:grails-console"
     profile "org.grails.profiles:web"
 
-    runtime 'mysql:mysql-connector-java:5.1.36'
+//    runtime 'mysql:mysql-connector-java:5.1.36'
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.11.6"
     runtime "com.h2database:h2"
-//    runtime group: 'org.postgresql', name: 'postgresql', version: '9.4.1212.jre7'
+    runtime group: 'org.postgresql', name: 'postgresql', version: '9.4.1212.jre7'
 
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
