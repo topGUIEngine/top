@@ -31,6 +31,7 @@
           <element id="library" level="project" name="Gradle: com.google.api-client:google-api-client:1.22.0" />
           <element id="library" level="project" name="Gradle: com.google.http-client:google-http-client-jackson:1.22.0" />
           <element id="library" level="project" name="Gradle: org.codehaus.groovy.modules.http-builder:http-builder:0.7.1" />
+          <element id="library" level="project" name="Gradle: org.grails.plugins:jasypt-encryption:2.0.2" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.1.7" />
           <element id="library" level="project" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.21" />
           <element id="library" level="project" name="Gradle: org.slf4j:jul-to-slf4j:1.7.21" />
@@ -88,6 +89,9 @@
           <element id="library" level="project" name="Gradle: net.sf.json-lib:json-lib:jdk15:2.3" />
           <element id="library" level="project" name="Gradle: net.sourceforge.nekohtml:nekohtml:1.9.22" />
           <element id="library" level="project" name="Gradle: xml-resolver:xml-resolver:1.2" />
+          <element id="library" level="project" name="Gradle: org.jasypt:jasypt:1.9.2" />
+          <element id="library" level="project" name="Gradle: org.jasypt:jasypt-hibernate4:1.9.2" />
+          <element id="library" level="project" name="Gradle: org.bouncycastle:bcprov-jdk16:1.46" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.1.7" />
           <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-aop:4.3.4.RELEASE" />
@@ -95,8 +99,8 @@
           <element id="library" level="project" name="Gradle: org.codehaus.groovy:groovy-xml:2.4.7" />
           <element id="library" level="project" name="Gradle: org.mozilla:rhino:1.7R4" />
           <element id="library" level="project" name="Gradle: org.codehaus.groovy:groovy-templates:2.4.7" />
-          <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
           <element id="library" level="project" name="Gradle: com.bertramlabs.plugins:asset-pipeline-core:2.11.6" />
+          <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.17" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-web:3.2.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-plugin-controllers:3.2.4" />
@@ -136,8 +140,8 @@
           <element id="library" level="project" name="Gradle: org.grails:grails-web-gsp:3.2.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-web-databinding:3.2.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-web-url-mappings:3.2.4" />
-          <element id="library" level="project" name="Gradle: org.grails:grails-web-jsp:3.2.4" />
           <element id="library" level="project" name="Gradle: com.google.javascript:closure-compiler-unshaded:v20160713" />
+          <element id="library" level="project" name="Gradle: org.grails:grails-web-jsp:3.2.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-web-mvc:3.2.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-web-sitemesh:3.2.4" />
           <element id="library" level="project" name="Gradle: org.grails:grails-async:3.2.4" />
@@ -166,17 +170,13 @@
           <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-juli:8.5.6" />
           <element id="library" level="project" name="Gradle: io.projectreactor.spring:reactor-spring-core:2.0.7.RELEASE" />
           <element id="library" level="project" name="Gradle: com.goldmansachs:gs-collections:5.1.0" />
-          <element id="library" level="project" name="Gradle: com.google.javascript:closure-compiler-externs:v20160713" />
           <element id="library" level="project" name="Gradle: org.codehaus.jsr166-mirror:jsr166y:1.7.0" />
+          <element id="library" level="project" name="Gradle: com.google.javascript:closure-compiler-externs:v20160713" />
           <element id="library" level="project" name="Gradle: org.reactivestreams:reactive-streams:1.0.0" />
           <element id="library" level="project" name="Gradle: args4j:args4j:2.0.26" />
-          <element id="library" level="project" name="Gradle: com.goldmansachs:gs-collections-api:5.1.0" />
           <element id="library" level="project" name="Gradle: com.google.guava:guava:19.0" />
+          <element id="library" level="project" name="Gradle: com.goldmansachs:gs-collections-api:5.1.0" />
           <element id="library" level="project" name="Gradle: com.google.protobuf:protobuf-java:2.5.0" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.grails.plugins/jasypt-encryption/2.0.2/c27d99ba3c2047073f420772cba270585c9caa7d/jasypt-encryption-2.0.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jasypt/jasypt/1.9.2/91eee489a389faba9fc57bfee75c87c615c19cd7/jasypt-1.9.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jasypt/jasypt-hibernate4/1.9.2/e4da82eeca7ae42036d1a186151f8b6828e2d853/jasypt-hibernate4-1.9.2.jar" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk16/1.46/ce091790943599535cbb4de8ede84535b0c1260c/bcprov-jdk16-1.46.jar" />
         </element>
       </element>
     </root>

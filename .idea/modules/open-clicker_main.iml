@@ -163,8 +163,8 @@
     <orderEntry type="library" name="Gradle: org.grails:grails-web-gsp:3.2.4" level="project" />
     <orderEntry type="library" name="Gradle: org.grails:grails-web-databinding:3.2.4" level="project" />
     <orderEntry type="library" name="Gradle: org.grails:grails-web-url-mappings:3.2.4" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.javascript:closure-compiler-unshaded:v20160713" level="project" />
     <orderEntry type="library" name="Gradle: org.grails:grails-web-jsp:3.2.4" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.javascript:closure-compiler-unshaded:v20160713" level="project" />
     <orderEntry type="library" name="Gradle: org.grails:grails-web-mvc:3.2.4" level="project" />
     <orderEntry type="library" name="Gradle: org.grails:grails-web-sitemesh:3.2.4" level="project" />
     <orderEntry type="library" name="Gradle: org.grails:grails-async:3.2.4" level="project" />
@@ -193,10 +193,10 @@
     <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-juli:8.5.6" level="project" />
     <orderEntry type="library" name="Gradle: io.projectreactor.spring:reactor-spring-core:2.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.goldmansachs:gs-collections:5.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.codehaus.jsr166-mirror:jsr166y:1.7.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.javascript:closure-compiler-externs:v20160713" level="project" />
-    <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.jsr166-mirror:jsr166y:1.7.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: args4j:args4j:2.0.26" level="project" />
+    <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Gradle: com.goldmansachs:gs-collections-api:5.1.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.protobuf:protobuf-java:2.5.0" level="project" />
