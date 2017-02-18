@@ -7,7 +7,7 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson.JacksonFactory
 import grails.converters.JSON
 import grails.transaction.Transactional
-import javafx.util.Pair
+import com.clickerapi.util.Pair
 
 @Transactional
 class GoogleAuthService {

@@ -85,6 +85,17 @@ var Authenticator = (function () {
 
             // set up listener.
             auth2.currentUser.listen(function (gUser) {
+                console.log('Listener fired up');
+                console.log(gUser);
+
+                var prof = gUser.getBasicProfile();
+
+                if(prof !== undefined) {
+                    console.log(prof.getGivenName());
+                    console.log(prof.getEmail());
+                    console.log(gUser.getAuthResponse().id_token);
+                }
+
                 googleUser = gUser;
 
                 //user is signed in

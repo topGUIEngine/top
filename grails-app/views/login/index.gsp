@@ -22,7 +22,7 @@
             if (uInfo.email.indexOf("oswego.edu") != -1 && auth.isValidInfo()) {
                 auth.sendSigninToServer(function (result) {
                     if (result.success) {
-                        auth.showDashboard();
+//                        auth.showDashboard();
                     } else {
                         alert(result.message);
                         auth.rejectGoogleUser();
