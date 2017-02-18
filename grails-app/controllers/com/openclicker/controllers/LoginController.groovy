@@ -32,9 +32,20 @@ class LoginController {
 
             //if all verifications went through
             if (verifyAcc.key) {
-                User user = authenticatorService.getOrMakerUser(payload.getEmail(),
-                        (String) payload.get("given_name"),
-                        (String) payload.get("family_name"))
+
+                String email = payload.getEmail()
+                String imageUrl = (String) payload.get("picture")
+                String first = (String) payload.get("given_name")
+                String last = (String) payload.get("family_name")
+                String subj = payload.getSubject()
+
+                User user = authenticatorService.getOrMakerUser(email, first, last, imageUrl, subj)
+
+
+
+//                User user = authenticatorService.getOrMakerUser(payload.getEmail(),
+//                        (String) payload.get("given_name"),
+//                        (String) payload.get("family_name"))
 
                 //set the session
                 authenticatorService.setSession(user, payload.getSubject(), session)

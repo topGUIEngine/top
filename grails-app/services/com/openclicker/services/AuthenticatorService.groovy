@@ -19,7 +19,7 @@ class AuthenticatorService {
      * @param last The last name of the user.
      * @return A user domain object.
      */
-    User getOrMakerUser(String email, String first, String last) {
+    User getOrMakerUser(String email, String first, String last, String imageUrl, String subj) {
         User temp = User.findByEmail(email)
         if (temp == null) {
             temp = new User(email: email, firstName: first, lastName: last).save(flush: true, failOnError:true)
