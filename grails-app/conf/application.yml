@@ -24,9 +24,6 @@ endpoints:
     jmx:
         enabled: true
 
-server:
-  port: 9001
-
 ---
 grails:
     mime:
