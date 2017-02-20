@@ -7,6 +7,12 @@ dataSource {
     password = "<Your db password here>"
 }
 
+auth2 {
+    clientId = "Your client ID here"
+    clientSecret = "Your client secret here"
+    scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+}
+
 environments {
 
     development {
