@@ -169,4 +169,4 @@ gradle-app.setting
 
 .idea
 
-Application.groovy
+grails-app/conf/Application.groovy
