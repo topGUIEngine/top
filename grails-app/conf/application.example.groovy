@@ -12,8 +12,8 @@ dataSource {
     jmxExport = true
     driverClassName = 'com.mysql.jdbc.Driver'
     dialect = 'org.hibernate.dialect.MySQL5InnoDBDialect'
-    username: '<Your db username here>'
-    password: 'Your db password here'
+    username = '<Your db username here>'
+    password = 'Your db password here'
 }
 
 environments {
