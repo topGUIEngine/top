@@ -4,7 +4,7 @@ Open source implementation of clicker software
 
 ## How to deploy this application
 The following guide explains how to run this application on your system.
-##### Install mysql(If you already have mysql)  
+##### Install mysql(If you already have mysql, skip this step)  
 Look up a guide for installing mysql on your Operating system. Also find out how to
 add mysql to your path and start your mysql server for your relavant operating system.
 ##### Create a database and a user(If you already have on ready, skip this step.)  
