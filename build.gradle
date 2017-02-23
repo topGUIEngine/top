@@ -19,6 +19,7 @@ apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin: "org.grails.grails-gsp"
 apply plugin:"org.grails.plugins.views-json"
+apply plugin:"asset-pipeline"
 
 repositories {
     mavenLocal()
@@ -62,6 +63,7 @@ dependencies {
 
     runtime "com.h2database:h2"
     runtime 'mysql:mysql-connector-java:5.1.36'
+    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.11.6"
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-datastore-rest-client"
