@@ -1,5 +1,5 @@
 server {
-    port = 8081
+    port = 8080 //change this if you need.
 }
 
 googleauth {
