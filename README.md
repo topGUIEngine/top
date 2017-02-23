@@ -4,17 +4,17 @@ Open source implementation of clicker software
 
 ## How to deploy this application
 The following guide explains how to run this application on your system.
-##### Install mysql(If you already have mysql, skip this step)  
-Look up a guide for installing mysql on your Operating system. Also find out how to
-add mysql to your path and start your mysql server for your relavant operating system.
+##### Install MySQL(If you already have MySQL, skip this step)  
+Look up a guide for installing MySQL on your Operating system. Also find out how to
+add MySQL to your path and start your MySQL server for your relavant operating system.
 ##### Create a database and a user(If you already have on ready, skip this step.)  
-Using or cmd/terminal og into mysql server as root user.
+Using your cmd/terminal log into MySQL server as root user.
 ```
-mysql - u root -p
+mysql -u root -p
 ```
 Issue the following commands in the given order to create a database, 
 create a user, and grant the user access to the database.
-```mysql
+```MySQL
 CREATE DATABASE your_database_name;
 CREATE USER 'your_user_name'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL ON your_database_name.* TO 'your_user_name'@'localhost';
