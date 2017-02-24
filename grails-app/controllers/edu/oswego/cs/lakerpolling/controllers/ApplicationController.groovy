@@ -18,10 +18,6 @@ class ApplicationController {
 
     }
 
-    def login() {
-
-    }
-
     /**
      * Verifies and takes action based on the given idToken query parameter.
      */

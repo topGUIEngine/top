@@ -1,5 +1,8 @@
 package edu.oswego.cs.lakerpolling.domains
 
+/**
+ * Auth token model
+ */
 class AuthToken {
 
     String subject

@@ -24,6 +24,11 @@ class AuthService {
 
     GrailsApplication grailsApplication
 
+    /**
+     * Attempts to validate the given id token string with google server.
+     * @param idTokenString - The id token to verify.
+     * @return An optional containing a {@link GoogleIdToken} or {@link Optional#empty} if verification failed.
+     */
     Optional<GoogleIdToken> getIdToken(String idTokenString) {
 
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
@@ -39,6 +44,12 @@ class AuthService {
 
     }
 
+    /**
+     * Verfies the integrity of the given GoogleIdToken by checking that the audience and issue
+     * match expected values.
+     * @param token - The token to verify.
+     * @return A pairing of successful boolean with a message if there is an error.
+     */
     Pair<Boolean, String> verifyIdToken(GoogleIdToken token) {
         Boolean success = false
         String message = AuthErrors.TOKEN_INTEGRITY
@@ -53,6 +64,11 @@ class AuthService {
         new Pair<Boolean, String>(success, message)
     }
 
+    /**
+     * Verifies the acquired user information to see if they follow guidlines.
+     * @param payload - The payload to verify.
+     * @return A pairing of successful boolean with a message if there is an error.
+     */
     Pair<Boolean, String> verifyPayload(Payload payload) {
         Boolean success = false
         String message
@@ -71,6 +87,11 @@ class AuthService {
         new Pair<Boolean, String>(success, message)
     }
 
+    /**
+     * Method to get, update or insert a user from the given payload.
+     * @param payload - The payload to grab data from.
+     * @return A pair containing a User and their associated AuthToken should all operations go successfully.
+     */
     Optional<Pair<User, AuthToken>> getMakeOrUpdate(Payload payload) {
 
         User user
@@ -85,6 +106,7 @@ class AuthService {
 
         token = AuthToken.findBySubject(subj)
 
+        // We have a token for this user.
         if (token != null) {
 
             user = token.user
@@ -99,12 +121,15 @@ class AuthService {
             user.save(flush: true, failOnError: true)
             token.save(flush: true, failOnError: true)
 
-        } else {// this may be a preloaded account or we don't have this user.
+        } else {
+            // this may be a pre-loaded account or this is a new user.
+
+            //attempt to find them in the db by email
             user = User.findByEmail(email)
 
-            if (user == null) {// new user
+            if (user == null) {// didn't find it, so this is a new user.
                 user = new User(firstName: first, lastName: last, imageUrl: imageUrl, email: email).save(flush: true, failOnError: true)
-            } else {//found the user by email
+            } else {//found the user by email, this must be a pre-loaded account
                 if (user.imageUrl == null) {
                     user.imageUrl = imageUrl
                 }
@@ -120,6 +145,7 @@ class AuthService {
                 user.save(flush:true, failOnError:true)
             }
 
+            //associate a token with the user
             token = new AuthToken(user: user, subject: subj, accessToken: accessTokenHash).save(flush: true, failOnError: true)
         }
 

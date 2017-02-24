@@ -1,5 +1,8 @@
 package edu.oswego.cs.lakerpolling.domains
 
+/**
+ * User model.
+ */
 class User {
 
     String firstName

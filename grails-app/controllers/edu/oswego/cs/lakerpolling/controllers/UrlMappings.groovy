@@ -12,7 +12,8 @@ class UrlMappings {
 
         "/"(controller: 'application', action:'index')
         "/auth"(controller: 'application', action: 'auth')
-        "/login"(controller: 'application', action: 'login')
+        "/application"(view: '/notFound')
+        "/application/**"(view: '/notFound')
         "/results/**"(view: '/notFound')
         "500"(view: '/error')
         "404"(view: '/notFound')
