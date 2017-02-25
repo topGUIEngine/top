@@ -10,9 +10,10 @@ class UrlMappings {
         put "/$controller/$id(.$format)?"(action:"update")
         patch "/$controller/$id(.$format)?"(action:"patch")
 
-        "/"(controller: 'application', action:'application')
-        "/login"(controller: 'application', action: 'login')
-        "/results"(controller: 'application', action: 'results')
+        "/"(controller: 'application', action:'index')
+        "/auth"(controller: 'application', action: 'auth')
+        "/application"(view: '/notFound')
+        "/application/**"(view: '/notFound')
         "/results/**"(view: '/notFound')
         "500"(view: '/error')
         "404"(view: '/notFound')

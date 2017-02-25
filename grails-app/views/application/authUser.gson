@@ -1,0 +1,28 @@
+import edu.oswego.cs.lakerpolling.domains.AuthToken
+import edu.oswego.cs.lakerpolling.domains.User
+
+model {
+    User user
+    AuthToken token
+}
+
+json {
+    status "success"
+    data {
+        accessToken token.accessToken
+        user {
+            first user.firstName
+            last user.lastName
+            email user.email
+        }
+    }
+
+//    data(
+//            accessToken: token.accessToken,
+//            user(
+//                    first: user.firstName,
+//                    last: user.lastName,
+//                    email: user.email
+//            )
+//    )
+}
