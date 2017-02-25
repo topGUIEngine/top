@@ -69,7 +69,7 @@ class ApplicationController {
         } else {
 
             if (user == null || authToken == null)
-                render(view: 'authError', model: [message: AuthErrors.INTERNAL_ERROR])
+                render(status:401 ,view: 'authError', model: [message: AuthErrors.INTERNAL_ERROR])
             else
                 render(view: 'authUser', model: [user: user, token: authToken])
 
