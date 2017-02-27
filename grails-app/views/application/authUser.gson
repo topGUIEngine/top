@@ -1,0 +1,24 @@
+import edu.oswego.cs.lakerpolling.domains.AuthToken
+import edu.oswego.cs.lakerpolling.domains.User
+
+model {
+    User user
+    AuthToken token
+}
+
+json {
+    status "success"
+    data {
+        accessToken String.format("%s-%s", token.accessToken, token.subject)
+        user {
+            id user.id
+            first user.firstName
+            last user.lastName
+            name String.format("%s %s", user.firstName, user.lastName)
+            email user.email
+            imageUrl user.imageUrl
+            type user.email.indexOf("_") != -1 ? "teacher" : "student"
+        }
+    }
+
+}
