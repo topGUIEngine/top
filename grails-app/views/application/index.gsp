@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Application</title>
 </head>
+
 <body>
 <h1>Application</h1>
 </body>
