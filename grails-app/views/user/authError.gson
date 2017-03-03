@@ -1,8 +1,12 @@
+package user
+
 model {
     String message
+    int code
 }
 
 json {
     "status" "failure"
+    "code" code
     "messages" message
 }

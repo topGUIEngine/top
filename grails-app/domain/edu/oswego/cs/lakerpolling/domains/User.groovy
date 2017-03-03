@@ -13,6 +13,7 @@ class User {
     static hasOne = [authToken: AuthToken]
 
     static mapping = {
+        table "users"
         version false
     }
 

@@ -61,6 +61,7 @@ dependencies {
 
     provided "org.springframework.boot:spring-boot-starter-tomcat"
 
+
     console "org.grails:grails-console"
     profile "org.grails.profiles:rest-api"
     profile "org.grails.profiles:web"
