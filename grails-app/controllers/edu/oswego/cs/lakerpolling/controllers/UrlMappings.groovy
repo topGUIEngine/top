@@ -11,6 +11,6 @@ class UrlMappings {
         patch "/$controller/$id(.$format)?"(action:"patch")
 
         "/api/user/auth"(controller: 'application', action: 'auth')
-        "/**"(controller: 'application', action: 'index')
+//        "/**"(controller: 'application', action: 'index')
     }
 }
