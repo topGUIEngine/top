@@ -1,7 +1,8 @@
-package user
 
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.User
+
+response.status OK.value()
 
 model {
     User user
