@@ -58,6 +58,7 @@ dependencies {
     compile "org.grails.plugins:views-json-templates"
     compile "org.grails:grails-plugin-gsp"
     compile 'com.google.api-client:google-api-client:1.22.0'
+    compile "org.apache.commons:commons-csv:1.4"
 
     provided "org.springframework.boot:spring-boot-starter-tomcat"
 
