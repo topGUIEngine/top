@@ -12,7 +12,7 @@ model {
 json {
     status "success"
     data {
-        accessToken String.format("%s-%s", token.accessToken, token.subject)
+        accessToken token.accessToken
         user {
             id user.id
             first user.firstName

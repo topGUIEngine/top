@@ -6,7 +6,7 @@ model {
 }
 
 json {
-    "status" " cool"
+    "status" "failure"
     "error" errorCode
 
     def m

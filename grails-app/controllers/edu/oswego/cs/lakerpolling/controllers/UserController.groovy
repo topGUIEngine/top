@@ -6,7 +6,6 @@ import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.services.UserService
 import edu.oswego.cs.lakerpolling.services.VerifierService
 import edu.oswego.cs.lakerpolling.util.Pair
-import grails.converters.JSON
 
 class UserController {
 

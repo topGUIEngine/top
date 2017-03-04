@@ -73,7 +73,7 @@ class VerifierService {
             return
         }
 
-        if(idTokenString == null){
+        if (idTokenString == null) {
             data.success = false
             data.message = "Missing parameter id token"
             data.errorCode = HttpStatus.BAD_REQUEST.value()
@@ -85,7 +85,13 @@ class VerifierService {
                 .setAudience([grailsApplication.config.getProperty("googleauth.clientId")])
                 .build()
 
-        GoogleIdToken temp = verifier.verify(idTokenString)
+        GoogleIdToken temp
+
+        try {
+            temp = verifier.verify(idTokenString)
+        } catch (Exception e) {
+            temp = null
+        }
 
         if (temp == null) {
             data.success = false
@@ -136,21 +142,20 @@ class VerifierService {
         Payload payload = data.idToken.payload
         Boolean passed = false
 
-        if(payload.getEmailVerified()) {
+        if (payload.getEmailVerified()) {
             if (payload.getEmail().indexOf("oswego.edu") == -1)
                 data.message = AuthErrors.NON_OSWEGO_EMAIL
             else
                 passed = true
-        }else {
+        } else {
             data.message = AuthErrors.UNVERIFIED_EMAIL
         }
 
-        if(!passed) {
+        if (!passed) {
             data.success = passed
             data.errorCode = HttpStatus.BAD_REQUEST.value()
         }
     }
-
 
 
 }
