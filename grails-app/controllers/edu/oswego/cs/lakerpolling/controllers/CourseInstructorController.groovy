@@ -7,7 +7,7 @@ import edu.oswego.cs.lakerpolling.util.RoleType
 import grails.rest.*
 import grails.converters.*
 
-class InstructorController {
+class CourseInstructorController {
 	static responseFormats = ['json', 'xml']
 	
     def index() {
