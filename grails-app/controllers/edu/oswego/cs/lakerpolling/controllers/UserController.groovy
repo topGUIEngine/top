@@ -14,14 +14,6 @@ class UserController {
 
     static responseFormats = ['json', 'xml']
 
-    def all(String accessToken) {
-        render accessToken
-    }
-
-    def findUser(String accessToken, String id) {
-        render accessToken.concat(id)
-    }
-
     /**
      * Verifies and takes action based on the given idToken query parameter.
      */
