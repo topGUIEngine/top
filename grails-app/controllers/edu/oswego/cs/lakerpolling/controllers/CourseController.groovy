@@ -21,12 +21,12 @@ class CourseController {
         def require = precheckService.require(params, ["access_token", "name", "crn"])
     }
 
-    def postCourse() {
-
+    def postCourse(String access_token, String course_id, String name, String user_id, File file) {
+        def require = precheckService.require(params, ["access_token", "course_id"])
     }
 
-    def deleteCourse() {
-
+    def deleteCourse(String access_token, String course_id, String user_id) {
+        def require = precheckService.require(params, ["access_token", "course_id"])
     }
 
 }
