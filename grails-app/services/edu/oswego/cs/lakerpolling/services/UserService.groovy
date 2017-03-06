@@ -1,13 +1,51 @@
 package edu.oswego.cs.lakerpolling.services
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.util.Pair
+import edu.oswego.cs.lakerpolling.util.RoleType
 import grails.transaction.Transactional
 
 @Transactional
 class UserService {
+
+    /**
+     * Checks if the given user is an Instructor
+     * @param user - The user to check
+     * @return A boolean representing whether the user is an Instructor
+     */
+    boolean checkIfInstructor(User user) { user.role.type.equals(RoleType.INSTRUCTOR) }
+
+    /**
+     * Gets the user with the specified access token
+     * @param token - the access token for the user
+     * @return The user associated with access token
+     */
+    Optional<User> getUser(String token) {
+        AuthToken authToken = AuthToken.findByAccessToken(token)
+        User user = authToken != null ? User.findByAuthToken(authToken) : null
+        return user != null ? Optional.of(user) : Optional.empty()
+    }
+
+    /**
+     * Gets the user associated with the given email or, if no such user exists, creates a placeholder user account for
+     * that email. This placeholder account will allow instructors to add students to courses before the students have
+     * registered with the system.
+     * @param email - The email of the user
+     * @return A User object
+     */
+    User getOrMakeByEmail(String email) {
+        User user
+
+        user = User.findByEmail(email)
+
+        if (user == null) {
+            user = new User(email: email)
+            user.save(flush: true, failOnError: true)
+        }
+
+        return user
+    }
 
     /**
      * Method to get, update or insert a user from the given payload.
