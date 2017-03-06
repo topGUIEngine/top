@@ -17,8 +17,8 @@ class CourseController {
         }
     }
 
-    def putCourse() {
-
+    def putCourse(String access_token, String name, String crn, String user_id) {
+        def require = precheckService.require(params, ["access_token", "name", "crn"])
     }
 
     def postCourse() {
