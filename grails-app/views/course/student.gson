@@ -1,3 +1,5 @@
+package course
+
 import edu.oswego.cs.lakerpolling.domains.User
 
 model {

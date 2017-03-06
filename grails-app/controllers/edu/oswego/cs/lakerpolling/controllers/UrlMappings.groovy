@@ -8,11 +8,8 @@ class UrlMappings {
             "/auth"(controller: 'user', action: 'auth')
         }
 
-        group "/api/courseInstructor/$authToken", {
-            "/course" (controller: 'courseInstructor', action: 'index', method: 'GET')
-            "/course" (controller: 'courseInstructor', action: 'getStudent', method: 'GET')
-            "/course" (controller: 'courseInstructor', action: 'getCourseParticipants', method: 'GET')
-            "/course" (controller: 'courseInstructor', action: 'addStudentToCourse', method: 'POST')
+        group "/api/course", {
+            "/"(controller: 'course', action: 'courseGet', method : 'get')
         }
 
         "/**"(controller: 'application', action: 'index')

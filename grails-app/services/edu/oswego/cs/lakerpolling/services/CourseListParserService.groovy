@@ -27,11 +27,11 @@ class CourseListParserService {
     /**
      * Parses the given CSV file as a course list of students. The first row in the CSV file must be a header row, which
      * must contain a header labeled either "Email" or "Username" (case insensitive). For each record in the file the
-     * parser will either extract the student's email directly from the "Email" column or will generate it dynamically
-     * using the student's Laker NetID extracted from the "Username" column.
+     * parser will either extract the course.student's email directly from the "Email" column or will generate it dynamically
+     * using the course.student's Laker NetID extracted from the "Username" column.
      *
      * @param file - a CSV file containing a list of students
-     * @return a list of student emails extracted from the CSV file
+     * @return a list of course.student emails extracted from the CSV file
      */
     List<String> parse(File file) {
         BufferedReader reader = new BufferedReader(new FileReader(file))

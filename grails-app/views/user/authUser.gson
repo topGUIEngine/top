@@ -20,7 +20,7 @@ json {
             name String.format("%s %s", user.firstName, user.lastName)
             email user.email
             imageUrl user.imageUrl
-            type user.email.indexOf("_") != -1 ? "teacher" : "student"
+            type user.email.indexOf("_") != -1 ? "teacher" : "course.student"
         }
     }
 
