@@ -69,11 +69,14 @@ dependencies {
     runtime 'mysql:mysql-connector-java:5.1.36'
     runtime 'org.postgresql:postgresql:42.0.0.jre7'
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.11.6"
+
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-datastore-rest-client"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4-rc-3"
 }
 
 bootRun {
