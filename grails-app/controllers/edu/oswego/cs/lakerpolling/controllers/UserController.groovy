@@ -6,6 +6,7 @@ import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.services.UserService
 import edu.oswego.cs.lakerpolling.services.VerifierService
 import edu.oswego.cs.lakerpolling.util.Pair
+import edu.oswego.cs.lakerpolling.util.QueryResult
 
 class UserController {
 
@@ -18,10 +19,10 @@ class UserController {
      * Verifies and takes action based on the given idToken query parameter.
      */
     def auth(String idToken) {
-        VerifierService.VerifiedData data = verifierService.getVerifiedResults(idToken)
+        QueryResult<GoogleIdToken> data = verifierService.getVerifiedResults(idToken)
 
         if (data.success) {
-            GoogleIdToken.Payload payload = data.idToken.payload
+            GoogleIdToken.Payload payload = data.data.payload
             String subj = payload.getSubject()
             String first = payload.get("given_name").toString()
             String last = payload.get("family_name").toString()

@@ -8,6 +8,7 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.util.Pair
+import edu.oswego.cs.lakerpolling.util.QueryResult
 import grails.core.GrailsApplication
 import grails.transaction.Transactional
 import org.springframework.http.HttpStatus
@@ -22,31 +23,6 @@ class VerifierService {
         final static String NON_OSWEGO_EMAIL = 'Non @oswego.edu email'
     }
 
-    class VerifiedData {
-
-        private boolean success = true
-        private int errorCode
-        private String message
-
-        private GoogleIdToken idToken
-
-        boolean getSuccess() {
-            return success
-        }
-
-        int getErrorCode() {
-            return errorCode
-        }
-
-        String getMessage() {
-            return message
-        }
-
-        GoogleIdToken getIdToken() {
-            return idToken
-        }
-    }
-
     GrailsApplication grailsApplication
 
     /**
@@ -54,8 +30,8 @@ class VerifierService {
      * @param idTokenString The raw id token string to be verified.
      * @return An object containing information on the verification of the candidate.
      */
-    VerifiedData getVerifiedResults(String idTokenString) {
-        VerifiedData data = new VerifiedData()
+    QueryResult<GoogleIdToken> getVerifiedResults(String idTokenString) {
+        QueryResult<GoogleIdToken> data = new QueryResult<>()
         verifyIdToken(idTokenString, data)
         verifyIdTokenIntegrity(data)
         verifyEmail(data)
@@ -67,7 +43,7 @@ class VerifierService {
      * @param idTokenString The raw id to check.
      * @param data The data object to push results onto.
      */
-    private void verifyIdToken(String idTokenString, VerifiedData data) {
+    private void verifyIdToken(String idTokenString, QueryResult<GoogleIdToken> data) {
 
         if (!data.success) {
             return
@@ -98,7 +74,7 @@ class VerifierService {
             data.message = AuthErrors.TOKEN_VERIFICATION
             data.errorCode = HttpStatus.BAD_REQUEST.value()
         } else {
-            data.idToken = temp
+            data.data = temp
         }
 
     }
@@ -108,13 +84,13 @@ class VerifierService {
      * expected issuer and audience.
      * @param data The data object to push results onto.
      */
-    private void verifyIdTokenIntegrity(VerifiedData data) {
+    private void verifyIdTokenIntegrity(QueryResult<GoogleIdToken> data) {
 
-        if (!data.success || data.idToken == null) {
+        if (!data.success || data.data == null) {
             return
         }
 
-        GoogleIdToken token = data.idToken
+        GoogleIdToken token = data.data
         def passed = false
 
         if (token.verifyAudience([grailsApplication.config.getProperty("googleauth.clientId")])) {
@@ -135,11 +111,11 @@ class VerifierService {
      * Verifies the email on the profile
      * @param data The data object to push results onto.
      */
-    private void verifyEmail(VerifiedData data) {
-        if (!data.success || data.idToken == null) {
+    private void verifyEmail(QueryResult<GoogleIdToken> data) {
+        if (!data.success || data.data == null) {
             return
         }
-        Payload payload = data.idToken.payload
+        Payload payload = data.data.payload
         Boolean passed = false
 
         if (payload.getEmailVerified()) {

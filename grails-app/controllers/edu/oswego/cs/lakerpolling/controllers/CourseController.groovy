@@ -1,6 +1,8 @@
 package edu.oswego.cs.lakerpolling.controllers
 
 import edu.oswego.cs.lakerpolling.domains.AuthToken
+import edu.oswego.cs.lakerpolling.domains.Course
+import edu.oswego.cs.lakerpolling.domains.Role
 import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.services.PrecheckService
 
@@ -15,13 +17,13 @@ class CourseController {
         if (require.success) {
             AuthToken token = AuthToken.findByAccessToken(access_token)
             User reqUser = token?.user
-            if(token != null && reqUser != null) {
+            if (token != null && reqUser != null) {
 
             } else {
-                render(view : '../unauthorized')
+                render(view: '../unauthorized')
             }
         } else {
-            render (view : '../failure', model : [errorCode:require.error, message:require.message])
+            render(view: '../failure', model: [errorCode: require.error, message: require.message])
         }
     }
 
@@ -37,7 +39,29 @@ class CourseController {
 
     def deleteCourse(String access_token, String course_id, String user_id) {
         def require = precheckService.require(params, ["access_token", "course_id"])
-        render "course_id:$course_id"
+        if (require.success) {
+
+
+//            AuthToken token = AuthToken.findByAccessToken(access_token)
+//            User reqUser = token?.user
+//            Role role = reqUser?.role
+//            Course course = null
+//
+//            if (reqUser != null && role != null) {
+//                course = course_id != null && course_id.isLong() ?
+//                        Course.findById(course_id.toLong())
+//                        : null
+//            }
+//
+//            if (course != null) {
+//
+//            } else {
+//                render(view: '../unauthorized')
+//            }
+
+        } else {
+            render(view: '../failure', model: [errorCode: require.error, message: require.message])
+        }
     }
 
 }
