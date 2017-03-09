@@ -116,11 +116,7 @@ class CourseService {
      * @return True if conditions are met.
      */
     private boolean isInstructorOrAdmin(Role role) {
-        boolean result = false
-        if (role != null) {
-            result = role.type == RoleType.ADMIN || role.type == RoleType.INSTRUCTOR
-        }
-        result
+        role.type == RoleType.ADMIN || role.type == RoleType.INSTRUCTOR
     }
 
     /**
