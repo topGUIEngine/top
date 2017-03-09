@@ -1,11 +1,13 @@
 package edu.oswego.cs.lakerpolling.util
 
+import org.springframework.http.HttpStatus
+
 
 class QueryResult<T> {
 
-    boolean success
-    int errorCode
-    String message
-    T data
+    boolean success = true
+    int errorCode = HttpStatus.OK.value()
+    String message = HttpStatus.OK.reasonPhrase
+    T data = null
 
 }
