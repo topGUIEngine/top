@@ -10,4 +10,13 @@ class QueryResult<T> {
     String message = HttpStatus.OK.reasonPhrase
     T data = null
 
+    static QueryResult fromHttpStatus(HttpStatus status, QueryResult results = new QueryResult()) {
+        results.with {
+            success = false
+            errorCode = status.value()
+            message = status.reasonPhrase
+        }
+        results
+    }
+
 }

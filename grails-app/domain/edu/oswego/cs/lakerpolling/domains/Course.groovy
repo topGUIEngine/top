@@ -9,7 +9,7 @@ class Course {
     static belongsTo = [instructor: User]
 
     static mapping = {
-        id column: 'crn'
+//        id column: 'crn'
     }
 
     static constraints = {

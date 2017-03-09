@@ -17,7 +17,7 @@ class PreconditionService {
      * @param results - An optional parameter. Results will be recorded in this object.
      * @return A results object containing check results.
      */
-    QueryResult require(GrailsParameterMap paramsMap, List<String> parameters, QueryResult results = new QueryResult(success: true)) {
+    QueryResult notNull(GrailsParameterMap paramsMap, List<String> parameters, QueryResult results = new QueryResult(success: true)) {
 
         if(!results.success) {
             return results
@@ -47,14 +47,17 @@ class PreconditionService {
      * @return A query result.
      */
     QueryResult<AuthToken> acessToken(String accessTokenString, QueryResult<AuthToken> results = new QueryResult<>(success: true)) {
+
+        if(!results.success) {
+            return results
+        }
+
         AuthToken token = AuthToken.findByAccessToken(accessTokenString)
 
         if (token != null) {
             results.data = token
         } else {
-            results.success = false
-            results.errorCode = HttpStatus.UNAUTHORIZED.value()
-            results.message = HttpStatus.UNAUTHORIZED.reasonPhrase
+            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, results)
         }
 
         results

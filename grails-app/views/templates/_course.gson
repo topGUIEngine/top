@@ -1,0 +1,23 @@
+import edu.oswego.cs.lakerpolling.domains.Course
+
+model {
+
+    Course course
+    boolean listStudents = false
+
+}
+
+json {
+    name course.name
+    crn course.crn
+
+    def instructor = course.instructor
+
+    instructorId instructor.id
+    instructorName "${instructor.firstName} ${instructor.lastName}"
+
+    if(listStudents) {
+        students g.render(template: '../templates/users', model: [users: course.students])
+    }
+
+}
