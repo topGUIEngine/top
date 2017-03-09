@@ -15,7 +15,7 @@ class CourseController {
         if (require.success) {
 
         } else {
-            render(view: '../failure', model: [errorCode: require.error, message: require.message])
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
     }
 
@@ -35,7 +35,7 @@ class CourseController {
         if (require.success) {
 
         } else {
-            render(view: '../failure', model: [errorCode: require.error, message: require.message])
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
     }
 
