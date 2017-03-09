@@ -52,7 +52,7 @@ class CourseController {
                     : courseService.deleteCourse(require.data, course_id, user_id)
 
             if (result.success) {
-                render(view: 'result', model: [token: require.data, course: result.data, listStudents: false])
+                render(view: 'deleteResult', model: [token: require.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }

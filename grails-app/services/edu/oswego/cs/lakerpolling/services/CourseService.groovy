@@ -71,14 +71,20 @@ class CourseService {
             Course course = cid != -1 ? Course.findById(cid) : null
             User toRemove = uid != -1 ? User.findById(uid) : null
 
-            if (requestingUser.role.type == RoleType.ADMIN) {
-                removeFromStudents(course, toRemove, res)
-            } else {
-                if (isInstructorOf(requestingUser, course)) {
+            if (course != null && toRemove != null) {
+                if (requestingUser.role.type == RoleType.ADMIN) {
                     removeFromStudents(course, toRemove, res)
+                    res.data = course
                 } else {
-                    QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+                    if (isInstructorOf(requestingUser, course)) {
+                        removeFromStudents(course, toRemove, res)
+                        res.data = course
+                    } else {
+                        QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+                    }
                 }
+            } else {
+                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, res)
             }
 
         } else {
