@@ -3,11 +3,18 @@ package edu.oswego.cs.lakerpolling.services
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.util.Pair
+import edu.oswego.cs.lakerpolling.util.QueryResult
 import edu.oswego.cs.lakerpolling.util.RoleType
 import grails.transaction.Transactional
+import org.springframework.http.HttpStatus
 
 @Transactional
 class UserService {
+
+    class UserErrors {
+        final static String INVALID_ACCESS_TOKEN = "Access token invalid"
+        final static String USER_NOT_FOUND = "User not found with given token"
+    }
 
     /**
      * Checks if the given user is an Instructor
@@ -21,10 +28,25 @@ class UserService {
      * @param token - the access token for the user
      * @return The user associated with access token
      */
-    Optional<User> getUser(String token) {
+    QueryResult<User> getUser(String token) {
+        QueryResult queryResult = new QueryResult()
+        queryResult.success = false
         AuthToken authToken = AuthToken.findByAccessToken(token)
-        User user = authToken != null ? User.findByAuthToken(authToken) : null
-        return user != null ? Optional.of(user) : Optional.empty()
+        if (authToken == null) {
+            queryResult.message = UserErrors.INVALID_ACCESS_TOKEN
+            queryResult.errorCode = HttpStatus.BAD_REQUEST.value()
+            return queryResult
+        }
+        User user = User.findByAuthToken(authToken)
+
+        if (user == null) {
+            queryResult.message = UserErrors.USER_NOT_FOUND
+            queryResult.errorCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
+            return queryResult
+        }
+        queryResult.data = user
+        queryResult.success = true
+        return queryResult
     }
 
     /**
