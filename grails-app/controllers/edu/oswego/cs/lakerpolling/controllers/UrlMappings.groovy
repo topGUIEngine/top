@@ -13,7 +13,7 @@ class UrlMappings {
             "/"(controller: 'course', action: 'postCourse', method : 'post')
             "/"(controller: 'course', action: 'deleteCourse', method : 'delete')
 
-            "/student"(controller: 'course', action: 'getterCourseStudent', method: 'get')
+            "/student"(controller: 'course', action: 'getCourseStudent', method: 'get')
             "/student"(controller: 'course', action: 'postCourseStudent', method: 'post')
             "/student"(controller: 'course', action: 'deleteCourseStudent', method: 'delete')
         }

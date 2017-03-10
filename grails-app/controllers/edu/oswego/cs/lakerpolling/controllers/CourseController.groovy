@@ -54,7 +54,7 @@ class CourseController {
         }
     }
 
-    def getterCourseStudent(String access_token, int course_id) {
+    def getCourseStudent(String access_token, int course_id) {
 
     }
 
