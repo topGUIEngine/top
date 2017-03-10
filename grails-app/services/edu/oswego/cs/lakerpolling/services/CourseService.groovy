@@ -54,47 +54,6 @@ class CourseService {
     }
 
     /**
-     * Deletes a user from the specified course. The role of the user must be admin or instructor. Instructors can
-     * only delete from their own courses.
-     * @param token - The token to use to retrieve the requesting user.
-     * @param courseId - The id of the course to delete.
-     * @param userId - The user to remove from the course.
-     * @return The results of the operations.
-     */
-    QueryResult<Course> deleteCourse(AuthToken token, String courseId, String userId) {
-        QueryResult<Course> res = new QueryResult<>()
-        User requestingUser = token?.user
-        long cid = courseId.isLong() ? courseId.toLong() : -1
-        long uid = userId.isLong() ? userId.toLong() : -1
-
-        if (requestingUser != null && isInstructorOrAdmin(requestingUser.role)) {
-            Course course = cid != -1 ? Course.findById(cid) : null
-            User toRemove = uid != -1 ? User.findById(uid) : null
-
-            if (course != null && toRemove != null) {
-                if (requestingUser.role.type == RoleType.ADMIN) {
-                    removeFromStudents(course, toRemove, res)
-                    res.data = course
-                } else {
-                    if (isInstructorOf(requestingUser, course)) {
-                        removeFromStudents(course, toRemove, res)
-                        res.data = course
-                    } else {
-                        QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
-                    }
-                }
-            } else {
-                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, res)
-            }
-
-        } else {
-            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
-        }
-
-        res
-    }
-
-    /**
      * Deletes a course.
      * @param course - The course to delete.
      * @param result - Optional result to store data in.

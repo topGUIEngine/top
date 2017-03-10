@@ -24,12 +24,7 @@ class CourseController {
         }
     }
 
-    def putCourse(String access_token, String name, String crn, String user_id) {
-        def require = preconditionService.notNull(params, ["access_token", "name", "crn"])
-        render("crn:$crn")
-    }
-
-    def postCourse(String access_token, String course_id, String name, String user_id, File file) {
+    def postCourse(String access_token, String course_id, String name, String user_id) {
         def require = preconditionService.notNull(params, ["access_token", "course_id"])
         render "name:$name"
     }
@@ -47,9 +42,7 @@ class CourseController {
         preconditionService.acessToken(access_token, require)
         if (require.success) {
 
-            QueryResult<Course> result = user_id == null ?
-                    courseService.deleteCourse(require.data, course_id)
-                    : courseService.deleteCourse(require.data, course_id, user_id)
+            QueryResult<Course> result = courseService.deleteCourse(require.data, course_id)
 
             if (result.success) {
                 render(view: 'deleteResult', model: [token: require.data])
@@ -60,6 +53,18 @@ class CourseController {
         } else {
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
+    }
+
+    def getterCourseStudent(String access_token, int course_id) {
+
+    }
+
+    def postCourseStudent(String access_token, int course_id, String email) {
+
+    }
+
+    def deleteCourseStudent(String access_token, int course_id, int user_id) {
+
     }
 
 }
