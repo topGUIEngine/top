@@ -33,9 +33,8 @@ class CourseController {
      * Endpoint to perform delete operation on courses.
      * @param access_token - The access token of the requesting user.
      * @param course_id - The id of the course.
-     * @param user_id - (Optional) The id of the user to delete.
      */
-    def deleteCourse(String access_token, String course_id, String user_id) {
+    def deleteCourse(String access_token, String course_id) {
         QueryResult<AuthToken> require = new QueryResult<>()
 
         preconditionService.notNull(params, ["access_token", "course_id"], require)
@@ -63,7 +62,7 @@ class CourseController {
 
     }
 
-    def deleteCourseStudent(String access_token, int course_id, int user_id) {
+    def deleteCourseStudent(String access_token, int course_id) {
 
     }
 
