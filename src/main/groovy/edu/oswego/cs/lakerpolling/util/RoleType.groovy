@@ -1,4 +1,10 @@
 package edu.oswego.cs.lakerpolling.util
 
 
-enum RoleType { INSTRUCTOR, ADMIN }
+enum RoleType {
+
+    STUDENT,
+    INSTRUCTOR,
+    ADMIN
+
+}

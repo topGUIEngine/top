@@ -1,9 +1,0 @@
-import edu.oswego.cs.lakerpolling.domains.User
-
-model {
-    User user
-}
-
-json {
-
-}
