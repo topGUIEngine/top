@@ -140,15 +140,28 @@ class CourseService {
         }
     }
 
-    boolean isInstructorOf(User user, int courseId) {
-        Course course = Course.get(courseId)
-        if (course != null) {
-            //TODO: check if user is instructor of course
+    /**
+     * Checks if the user has instructor access for the given course
+     * @param user - the user to check for instructor access
+     * @param course - the course to check
+     * @return True if the user has instructor accss to the course
+     */
+    private boolean hasInstructorAccess(User user, Course course) {
+        if (user.role.type == RoleType.ADMIN) {
+            return true
         }
-
+        if (user.role.type == RoleType.INSTRUCTOR && isInstructorOf(user, course)) {
+            return true
+        }
         return false
     }
 
+    /**
+     * Checks if the user is an instructor of the course
+     * @param user - the user to check
+     * @param course - the course to check
+     * @return true if the user is an instructor of the course
+     */
     boolean isInstructorOf(User user, Course course) {
         user != null && course != null && course.instructorId == user.id
     }
