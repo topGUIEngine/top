@@ -41,20 +41,15 @@ class CourseListParserService {
      */
     QueryResult<List<String>> parse(Reader reader) {
         def result = new QueryResult<>()
-        result.success = true
         try {
             CSVParser parser = format.parse(reader)
             def columnIndexMap = parseHeader(parser.getHeaderMap())
             verifyHeaderFormat(columnIndexMap, result)
             parseRecords(columnIndexMap, parser, result)
-        }catch (IllegalArgumentException e1) {
-            result.success = false
-            result.errorCode = HttpStatus.BAD_REQUEST.value()
-            result.message = e1.getMessage()
-        } catch (IOException e2) {
-            result.success = false
-            result.errorCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
-            result.message = e2.getMessage()
+        }catch (IllegalArgumentException ignored) {
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
+        } catch (IOException ignored) {
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
         }
         result
     }
@@ -83,9 +78,8 @@ class CourseListParserService {
         }
 
         if (columnIndexMap.isEmpty()) {
-            result.success = false
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
             result.message = ParseError.MISSING_HEADER
-            result.errorCode = HttpStatus.BAD_REQUEST.value()
         }
         result
     }
