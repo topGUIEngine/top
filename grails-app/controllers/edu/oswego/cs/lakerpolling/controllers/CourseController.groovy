@@ -6,6 +6,7 @@ import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.services.CourseService
 import edu.oswego.cs.lakerpolling.services.PreconditionService
 import edu.oswego.cs.lakerpolling.util.QueryResult
+import org.springframework.http.HttpStatus
 
 class CourseController {
 
@@ -55,8 +56,33 @@ class CourseController {
         }
     }
 
-    def getCourseStudent(String access_token, String course_id) {
+    /**
+     * Endpoint to get a list of students in a specified course.
+     * @param access_token - The access token of the requesting user.
+     * @param course_id - The id of the course
+     */
 
+    def getCourseStudent(String access_token, String course_id) {
+        QueryResult<AuthToken> require = new QueryResult<>()
+        preconditionService.notNull(params, ["access_token", "course_id"], require)
+        preconditionService.accessToken(access_token, require)
+
+        if (require.success) {
+//            println("All good here! This statement runs!")
+            def results = courseService.getAllStudents(require.data, course_id)
+            if (results.success) {
+                render(view: 'getStudentList', model: [token: require.data])
+                return
+            }
+            else {
+                render(view: '../failure', model: [errorCode: results.errorCode, message: results.message])
+                return
+            }
+        }
+        else {
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
+            return
+        }
     }
 
     def postCourseStudent(String access_token, String course_id, String email) {

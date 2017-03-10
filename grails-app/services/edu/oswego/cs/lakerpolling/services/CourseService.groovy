@@ -15,6 +15,35 @@ import org.springframework.http.HttpStatus
 @Transactional
 class CourseService {
 
+    QueryResult<List<User>> getAllStudents(AuthToken token, String courseId) {
+        QueryResult<List<User>> res = new QueryResult<>()
+        User requestingUser = token?.user
+        long cid = courseId.isLong() ? courseId.toLong() : -1
+
+        if (requestingUser != null && isInstructorOrAdmin(requestingUser.role) && cid != -1) {
+            Course course = Course.findById(cid)
+            if (course != null) {
+
+                // if this is an admin performing the action
+                if (requestingUser.role.type == RoleType.ADMIN) {
+                    res.data = course.students
+                } else {
+                    // make sure the requesting user is the instructor
+                    if (isInstructorOf(requestingUser, course)) {
+                        res.data = course.students
+                    } else {
+                        QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+                    }
+                }
+            } else {
+                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, res)
+            }
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+        }
+        return res
+    }
+
     /**
      * Deletes a specified course. The role of the requesting user is taken into consideration. Only admin and
      * instructors can delete courses and instructors can only delete their own courses.
