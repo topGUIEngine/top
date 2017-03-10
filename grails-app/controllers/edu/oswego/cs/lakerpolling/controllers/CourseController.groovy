@@ -97,12 +97,17 @@ class CourseController {
         preconditionService.accessToken(access_token, checks)
 
         if (checks.success) {
-            List userIds = params.list("user_id")
-            QueryResult result = courseService.deleteStudentCourse(checks.data, course_id, userIds)
-            if (result.success) {
-                render(view: 'deleteResult', model: [token: checks.data])
+            if (course_id.isLong()) {
+                List userIds = params.list("user_id")
+                QueryResult result = courseService.deleteStudentCourse(checks.data, course_id.toLong(), userIds)
+                if (result.success) {
+                    render(view: 'deleteResult', model: [token: checks.data])
+                } else {
+                    render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
+                }
             } else {
-                render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
+                def bad = QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+                render(view: '../failure', model: [errorCode: bad.errorCode, message: bad.message])
             }
         } else {
             render(view: '../failure', model: [errorCode: checks.errorCode, message: checks.message])

@@ -82,10 +82,33 @@ class CourseService {
         res
     }
 
-    QueryResult deleteStudentCourse(AuthToken token, int courseId, List userIds) {
+    /**
+     * Removes a list of students from a given course. The request is allowed if the requesting user's role
+     * is ADMIN or is instructor of the course.
+     * @param token - The token identifying the requesting user.
+     * @param courseId - The id of the course to delete from.
+     * @param userIds - The list of user ids to remove.
+     * @return A query result object.
+     */
+    QueryResult deleteStudentCourse(AuthToken token, long courseId, List userIds) {
         QueryResult res = new QueryResult()
+        User requestingUser = token?.user
+        Course course = Course.findById(courseId)
 
-
+        // user and course must exist. check if role is admin or is instructor of course
+        if (requestingUser != null && course != null && (requestingUser.role.type == RoleType.ADMIN
+                || isInstructorOf(requestingUser, course))) {
+            try {
+                userIds.each { id ->
+                    course.removeFromStudents(User.get(id as Long))
+                }
+            } catch (Exception e) {
+                e.printStackTrace()
+                QueryResult.fromHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR, res)
+            }
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+        }
 
         res
     }
@@ -146,17 +169,30 @@ class CourseService {
         }
     }
 
-    boolean isInstructorOf(User user, int courseId) {
-        Course course = Course.get(courseId)
-        if (course != null) {
-            //TODO: check if user is instructor of course
+    /**
+     * Checks if the user has instructor access for the given course
+     * @param user - the user to check for instructor access
+     * @param course - the course to check
+     * @return True if the user has instructor accss to the course
+     */
+    private boolean hasInstructorAccess(User user, Course course) {
+        if (user.role.type == RoleType.ADMIN) {
+            return true
         }
-
+        if (user.role.type == RoleType.INSTRUCTOR && isInstructorOf(user, course)) {
+            return true
+        }
         return false
     }
 
+    /**
+     * Checks if the user is an instructor of the course
+     * @param user - the user to check
+     * @param course - the course to check
+     * @return true if the user is an instructor of the course
+     */
     boolean isInstructorOf(User user, Course course) {
-        course.instructorId == user.id
+        user != null && course != null && course.instructorId == user.id
     }
 
     void addStudent(int courseId, User student) {
