@@ -15,6 +15,12 @@ import org.springframework.http.HttpStatus
 @Transactional
 class CourseService {
 
+    /**
+     * Lists students in a specified course
+     * @param token - The token to use to retrieve the course-list.
+     * @param courseId - The id of the course from which to list students.
+     * @return The results of the operations.
+     */
     QueryResult<List<User>> getAllStudents(AuthToken token, String courseId) {
         QueryResult<List<User>> res = new QueryResult<>()
         User requestingUser = token?.user
@@ -59,7 +65,6 @@ class CourseService {
         if (requestingUser != null && isInstructorOrAdmin(requestingUser.role) && cid != -1) {
             Course course = Course.findById(cid)
             if (course != null) {
-
                 // if this is an admin performing the action
                 if (requestingUser.role.type == RoleType.ADMIN) {
                     doDelete(course, res)
@@ -71,15 +76,14 @@ class CourseService {
                         QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
                     }
                 }
-
             } else {
-                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, res)
             }
         } else {
             QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
         }
 
-        res
+        return res
     }
 
     /**
