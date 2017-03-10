@@ -1,5 +1,6 @@
 package edu.oswego.cs.lakerpolling.controllers
 
+import com.apple.eawt.QuitResponse
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
 import edu.oswego.cs.lakerpolling.domains.User
@@ -25,9 +26,35 @@ class CourseController {
         }
     }
 
+    /**
+     * Endpoint to POST a new course to the server
+     * @param access_token - The access token of the requesting user
+     * @param course_id - the id of the course being added
+     * @param name - the name of the course being added
+     * @param user_id - the user id of the instructor the course will be added to
+     */
     def postCourse(String access_token, String course_id, String name, String user_id) {
-        def require = preconditionService.notNull(params, ["access_token", "course_id"])
-        render "name:$name"
+        def require = preconditionService.notNull(params, ["access_token", "course_id", "name"])
+        AuthToken token = preconditionService.accessToken(access_token, require)
+
+        if(require.success) {
+            def adminCreate = preconditionService.notNull(params, ["user_id"])
+            def result
+            if(adminCreate.success) {
+                result = courseService.adminCreateCourse(token, course_id, name, user_id)
+            } else {
+                result = courseService.instructorCreateCourse(token, course_id, name)
+            }
+
+            if(result.success) {
+                render(view: 'newCourse', model: result.data)
+            } else {
+                render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
+            }
+        } else {
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
+        }
+
     }
 
     /**

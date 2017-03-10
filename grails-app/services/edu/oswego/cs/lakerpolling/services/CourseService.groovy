@@ -60,6 +60,58 @@ class CourseService {
 
         res
     }
+    /**
+     * Creates a course for an instructor
+     * @param token - The AuthToken of the instructor
+     * @param courseId - The crn of the course being created
+     * @param name - The name of the course to be created
+     * @param result - Optional result to store data in
+     * @return query results
+     */
+    QueryResult<Course> instructorCreateCourse(AuthToken token, String courseId, String name, QueryResult<Course> result = new QueryResult<>(success: true)) {
+        User instructor = User.findByAuthToken(token)
+        if(isInstructorOrAdmin(instructor.role) && !courseExists(courseId)) {
+            result = createCourse(instructor, name, courseId, result)
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
+        }
+        result
+    }
+
+    /**
+     * Creates a course for an instructor as an admin
+     * @param token - The AuthToken of the admin
+     * @param courseId - The crn of the course being created
+     * @param name - The name of the course being created
+     * @param instructor - The instructor who will own the course
+     * @param result - Optional result to store data in
+     * @return query results
+     */
+    QueryResult<Course> adminCreateCourse(AuthToken token, String courseId, String name, String instructor, QueryResult<Course> result = new QueryResult<>(success: true)) {
+        User admin = User.findByAuthToken(token)
+        User inst = User.findById(Long.parseLong(instructor))
+        if(admin.role.type == RoleType.ADMIN && inst.role.type == RoleType.INSTRUCTOR && !courseExists(courseId)) {
+            result = createCourse(inst, name, courseId, result)
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
+        }
+        result
+    }
+
+    /**
+     * Creates a course
+     * @param instructor - The instructor who will own a course
+     * @param name - The name of the course
+     * @param courseId - The crn of the course
+     * @param result - the QueryResult of the request
+     * @return query results
+     */
+    private QueryResult<Course> createCourse(User instructor, String name, String courseId, QueryResult<Course> result) {
+        Course course = new Course(name: name, crn: courseId, instructor: instructor)
+        course.save(flush: true, failOnError: true)
+        result.data = course
+        result
+    }
 
     /**
      * Deletes a course.
@@ -85,6 +137,8 @@ class CourseService {
     private boolean isInstructorOrAdmin(Role role) {
         role.type == RoleType.ADMIN || role.type == RoleType.INSTRUCTOR
     }
+
+    private boolean courseExists(String course_id) { Course.findByCrn(course_id) != null }
 
     /**
      * Removes a student from a course. Catching errors and returning results.
