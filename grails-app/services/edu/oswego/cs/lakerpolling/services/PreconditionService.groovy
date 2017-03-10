@@ -26,7 +26,7 @@ class PreconditionService {
         if (parameters.size() > 0) {
 
             for (String param in parameters) {
-                if (paramsMap[param] == null) {
+                if (!paramsMap.containsKey(param)) {
                     results.with {
                         success = false
                         errorCode = HttpStatus.BAD_REQUEST.value()
@@ -46,7 +46,7 @@ class PreconditionService {
      * @param results - An optional parameter. Results will be recorded in this object.
      * @return A query result.
      */
-    QueryResult<AuthToken> acessToken(String accessTokenString, QueryResult<AuthToken> results = new QueryResult<>(success: true)) {
+    QueryResult<AuthToken> accessToken(String accessTokenString, QueryResult<AuthToken> results = new QueryResult<>(success: true)) {
 
         if(!results.success) {
             return results

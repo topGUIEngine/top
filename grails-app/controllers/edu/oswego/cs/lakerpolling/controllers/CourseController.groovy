@@ -2,6 +2,7 @@ package edu.oswego.cs.lakerpolling.controllers
 
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
+import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.services.CourseService
 import edu.oswego.cs.lakerpolling.services.PreconditionService
 import edu.oswego.cs.lakerpolling.util.QueryResult
@@ -15,7 +16,7 @@ class CourseController {
 
     def courseGet(String access_token, String user_id, String course_id, boolean list_students) {
         def require = preconditionService.notNull(params, ["access_token", "user_id"])
-        preconditionService.acessToken(access_token, require)
+        preconditionService.accessToken(access_token, require)
 
         if (require.success) {
 
@@ -38,7 +39,7 @@ class CourseController {
         QueryResult<AuthToken> require = new QueryResult<>()
 
         preconditionService.notNull(params, ["access_token", "course_id"], require)
-        preconditionService.acessToken(access_token, require)
+        preconditionService.accessToken(access_token, require)
         if (require.success) {
 
             QueryResult<Course> result = courseService.deleteCourse(require.data, course_id)
@@ -54,15 +55,32 @@ class CourseController {
         }
     }
 
-    def getCourseStudent(String access_token, int course_id) {
+    def getCourseStudent(String access_token, String course_id) {
 
     }
 
-    def postCourseStudent(String access_token, int course_id, String email) {
+    def postCourseStudent(String access_token, String course_id, String email) {
 
     }
 
-    def deleteCourseStudent(String access_token, int course_id) {
+    def deleteCourseStudent(String access_token, String course_id) {
+        println(course_id)
+        QueryResult<AuthToken> checks = new QueryResult<>()
+
+        preconditionService.notNull(params, ["access_token", "course_id", "user_id"], checks)
+        preconditionService.accessToken(access_token, checks)
+
+        if (checks.success) {
+            List userIds = params.list("user_id")
+            QueryResult result = courseService.deleteStudentCourse(checks.data, course_id, userIds)
+            if (result.success) {
+                render(view: 'deleteResult', model: [token: checks.data])
+            } else {
+                render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
+            }
+        } else {
+            render(view: '../failure', model: [errorCode: checks.errorCode, message: checks.message])
+        }
 
     }
 

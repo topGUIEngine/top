@@ -53,6 +53,14 @@ class CourseService {
         res
     }
 
+    QueryResult deleteStudentCourse(AuthToken token, int courseId, List userIds) {
+        QueryResult res = new QueryResult()
+
+
+
+        res
+    }
+
     /**
      * Deletes a course.
      * @param course - The course to delete.
