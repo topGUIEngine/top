@@ -1,0 +1,7 @@
+package course
+
+response.status 200
+
+json {    
+    message "Here are the students, it works"
+}
