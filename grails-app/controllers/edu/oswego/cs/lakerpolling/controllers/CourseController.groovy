@@ -1,9 +1,7 @@
 package edu.oswego.cs.lakerpolling.controllers
 
-import com.apple.eawt.QuitResponse
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
-import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.services.CourseService
 import edu.oswego.cs.lakerpolling.services.PreconditionService
 import edu.oswego.cs.lakerpolling.util.QueryResult
