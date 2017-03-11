@@ -22,7 +22,14 @@ class CourseController {
         preconditionService.accessToken(access_token, require)
 
         if (require.success) {
-
+            QueryResult<Course> result = course_id == null ?
+                    courseService.getAllCourses(require.data)
+                    : courseService.getAllCourses(require.data, course_id)
+            if (result.success) {
+                render(view: '../ListResult', model: [token: require.data])
+            } else {
+                render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
+            }
         } else {
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
