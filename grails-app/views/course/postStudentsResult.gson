@@ -12,6 +12,6 @@ json {
     data {
         accessToken token.accessToken
         course_id courseID
-        user g.render(template: "../templates/students", model: [students:students])
+        students g.render(template: "../templates/students", model: [students:students])
     }
 }

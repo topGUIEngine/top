@@ -58,7 +58,6 @@ class UserService {
      * @return A User object
      */
     User getOrMakeByEmail(String email) {
-        println "get or make by email"
         User user = User.findByEmail(email)
 
         if (user == null) {

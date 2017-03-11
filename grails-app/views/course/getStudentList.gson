@@ -1,7 +1,17 @@
 package course
 
-response.status 200
+response.status OK.value()
+model {
+    AuthToken token
+    Long courseID
+    Collection<User> students = []
+}
 
-json {    
-    message "Here are the students, it works"
+json {
+    status "success"
+    data {
+        accessToken token.accessToken
+        course_id courseID
+        students g.render(template: "../templates/students", model: [students:students])
+    }
 }

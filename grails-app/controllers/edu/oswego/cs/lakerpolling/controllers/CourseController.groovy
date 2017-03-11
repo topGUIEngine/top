@@ -99,7 +99,7 @@ class CourseController {
 //            println("All good here! This statement runs!")
             def results = courseService.getAllStudents(require.data, course_id)
             if (results.success) {
-                render(view: 'getStudentList', model: [token: require.data])
+                render(view: 'getStudentList', model: [token: require.data, students: results.data])
             }
             else {
                 render(view: '../failure', model: [errorCode: results.errorCode, message: results.message])
