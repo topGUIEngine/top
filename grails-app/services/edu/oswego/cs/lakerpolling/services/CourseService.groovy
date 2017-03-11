@@ -341,15 +341,15 @@ class CourseService {
      * @param user_id
      * @return
      */
-    QueryResult<Course>getAllCourses(AuthToken token, String courseId) {
-        QueryResult<Course> res = new QueryResult<>()
+    QueryResult<List<Course>>getAllCourses(AuthToken token, String courseId) {
+        QueryResult<List<Course>> res = new QueryResult<>()
         User requestingUser = token?.user
 
         long cid = courseId.isLong() ? courseId.toLong() : -1
 
         if (requestingUser != null && cid != -1) {
             Course course = Course.findById(cid)
-            List<Course> selectedCourse = new List<>()
+            List<Course> selectedCourse = new ArrayList<>()
             selectedCourse.add(course)
             res.data = selectedCourse
         } else {

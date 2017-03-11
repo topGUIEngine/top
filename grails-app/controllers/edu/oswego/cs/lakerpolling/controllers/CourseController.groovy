@@ -17,8 +17,8 @@ class CourseController {
     CourseService courseService
     CourseListParserService courseListParserService
 
-    def courseGet(String access_token, String user_id, String course_id, boolean list_students) {
-        def require = preconditionService.notNull(params, ["access_token", "user_id"])
+    def courseGet(String access_token, String course_id) {
+        def require = preconditionService.notNull(params, ["access_token"])
         preconditionService.accessToken(access_token, require)
 
         if (require.success) {
@@ -26,7 +26,7 @@ class CourseController {
                     courseService.getAllCourses(require.data)
                     : courseService.getAllCourses(require.data, course_id)
             if (result.success) {
-                render(view: 'ListResult', model: [token: require.data])
+                render(view: 'ListResult', model: [token: require.data, courses: result.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }
