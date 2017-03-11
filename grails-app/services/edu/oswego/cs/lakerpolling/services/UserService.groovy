@@ -1,6 +1,7 @@
 package edu.oswego.cs.lakerpolling.services
 
 import edu.oswego.cs.lakerpolling.domains.AuthToken
+import edu.oswego.cs.lakerpolling.domains.Role
 import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.util.Pair
 import edu.oswego.cs.lakerpolling.util.QueryResult
@@ -57,12 +58,12 @@ class UserService {
      * @return A User object
      */
     User getOrMakeByEmail(String email) {
-        User user
-
-        user = User.findByEmail(email)
+        println "get or make by email"
+        User user = User.findByEmail(email)
 
         if (user == null) {
             user = new User(email: email)
+            user.setRole(new Role(type: RoleType.STUDENT))
             user.save(flush: true, failOnError: true)
         }
 

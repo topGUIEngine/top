@@ -88,6 +88,16 @@ class CourseService {
         res
     }
 
+    /**
+     * Adds the users associated with the each of the emails in the given list of emails to the course with the
+     * specified courseId. Only admin and instructors can only add students and instructors can only add students to
+     * their own courses. If a user with the one of the emails does not already exist then a placeholder account is
+     * created for that user.
+     * @param token - The token to use to retrieve the requesting user.
+     * @param courseId - The id of the course to delete.
+     * @param emails - A list of emails to add to the course
+     * @return The results of the operations.
+     */
     QueryResult<List<User>> postStudentsToCourse(AuthToken token, String courseId, List<String> emails) {
         QueryResult<List<User>> result = new QueryResult<>()
         User requestingUser = token?.user
@@ -99,7 +109,9 @@ class CourseService {
                 if (hasInstructorAccess(requestingUser, course)) {
                     List<User> users = new ArrayList<>()
                     for (email in emails) {
-                        users.add(userService.getOrMakeByEmail(email))
+                        User user = userService.getOrMakeByEmail(email)
+                        course.addToStudents(user)
+                        users.add(user)
                     }
                     result.data = users
                 } else {

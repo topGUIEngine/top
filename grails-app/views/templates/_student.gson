@@ -7,6 +7,5 @@ model {
 json {
     first student.firstName
     last student.lastName
-    name String.format("%s %s", student.firstName, student.lastName)
     email student.email
 }

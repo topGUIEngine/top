@@ -2,6 +2,7 @@ package edu.oswego.cs.lakerpolling.controllers
 
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
+import edu.oswego.cs.lakerpolling.services.CourseListParserService
 import edu.oswego.cs.lakerpolling.services.CourseService
 import edu.oswego.cs.lakerpolling.services.PreconditionService
 import edu.oswego.cs.lakerpolling.util.QueryResult
@@ -14,6 +15,7 @@ class CourseController {
 
     PreconditionService preconditionService
     CourseService courseService
+    CourseListParserService courseListParserService
 
     def courseGet(String access_token, String user_id, String course_id, boolean list_students) {
         def require = preconditionService.notNull(params, ["access_token", "user_id"])
@@ -111,6 +113,15 @@ class CourseController {
         }
     }
 
+    /**
+     * Endpoint to add students to an existing course by their email address. The POST request can also take a CSV file
+     * containing student emails. If this CSV file is included in the request then it will be parsed and the students
+     * associated with each of the emails in the file will be added to the course.
+     * @param access_token - The access token of the requesting user
+     * @param course_id - the id of the course being added
+     * @param email - the name of an email address by which to add a student
+     * @param user_id - the user id of the instructor the course will be added to
+     */
     def postCourseStudent(String access_token, String course_id, String email) {
         QueryResult<AuthToken> require = new QueryResult<>()
 
@@ -121,17 +132,20 @@ class CourseController {
             AuthToken token = require.data
             List<String> emails = new ArrayList<>()
 
-            MultipartFile file = request.getFile("file")
-            if (file != null) {
-                QueryResult parseResult = courseListParserService.parse(file)
-                if (parseResult.success) {
-                    emails = parseResult.data
-                }
-                else {
-                    render(view: '../failure', model: [errorCode: parseResult.errorCode, message: parseResult.message])
-                    return
+            if (params.containsKey("file")) {
+                MultipartFile file = request.getFile("file")
+                if (file != null) {
+                    QueryResult<List<String>> parseResult = courseListParserService.parse(file)
+                    if (parseResult.success) {
+                        emails = parseResult.data
+                    }
+                    else {
+                        render(view: '../failure', model: [errorCode: parseResult.errorCode, message: parseResult.message])
+                        return
+                    }
                 }
             }
+
 
             if (email != null) {
                 emails.add(email)
@@ -139,7 +153,7 @@ class CourseController {
 
             def result = courseService.postStudentsToCourse(token, course_id, emails)
             if (result.success) {
-                render(view: 'postStudentsResult', model: [token: token, course_id: course_id, students: result.data])
+                render(view: 'postStudentsResult', model: [token: token, courseID: course_id.toLong(), students: result.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }

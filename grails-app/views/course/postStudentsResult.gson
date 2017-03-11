@@ -3,7 +3,7 @@ import edu.oswego.cs.lakerpolling.domains.AuthToken
 response.status OK.value()
 model {
     AuthToken token
-    Integer courseID
+    Long courseID
     Collection<User> students = []
 }
 
@@ -12,6 +12,6 @@ json {
     data {
         accessToken token.accessToken
         course_id courseID
-        user g.render(template: "../template/students", model: [students:students])
+        user g.render(template: "../templates/students", model: [students:students])
     }
 }
