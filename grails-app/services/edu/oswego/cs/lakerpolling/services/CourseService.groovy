@@ -99,19 +99,23 @@ class CourseService {
         User requestingUser = token?.user
         Course course = Course.findById(courseId)
 
-        // user and course must exist. check if role is admin or is instructor of course
-        if (requestingUser != null && course != null && (requestingUser.role.type == RoleType.ADMIN
-                || isInstructorOf(requestingUser, course))) {
-            try {
-                userIds.each { id ->
-                    course.removeFromStudents(User.get(id as Long))
+        if (course != null) {
+            // user and course must exist. check if role is admin or is instructor of course
+            if (requestingUser != null && (requestingUser.role.type == RoleType.ADMIN
+                    || isInstructorOf(requestingUser, course))) {
+                try {
+                    userIds.each { id ->
+                        course.removeFromStudents(User.get(id as Long))
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace()
+                    QueryResult.fromHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR, res)
                 }
-            } catch (Exception e) {
-                e.printStackTrace()
-                QueryResult.fromHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR, res)
+            } else {
+                QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
             }
         } else {
-            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, res)
         }
 
         res
@@ -126,7 +130,7 @@ class CourseService {
      */
     QueryResult<Course> instructorCreateCourse(AuthToken token, String courseId, String name, QueryResult<Course> result = new QueryResult<>(success: true)) {
         User instructor = User.findByAuthToken(token)
-        if(isInstructorOrAdmin(instructor.role) && !courseExists(courseId)) {
+        if (isInstructorOrAdmin(instructor.role) && !courseExists(courseId)) {
             result = createCourse(instructor, name, courseId, result)
         } else {
             QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
@@ -146,7 +150,7 @@ class CourseService {
     QueryResult<Course> adminCreateCourse(AuthToken token, String courseId, String name, String instructor, QueryResult<Course> result = new QueryResult<>(success: true)) {
         User admin = User.findByAuthToken(token)
         User inst = User.findById(Long.parseLong(instructor))
-        if(admin.role.type == RoleType.ADMIN && inst.role.type == RoleType.INSTRUCTOR && !courseExists(courseId)) {
+        if (admin.role.type == RoleType.ADMIN && inst.role.type == RoleType.INSTRUCTOR && !courseExists(courseId)) {
             result = createCourse(inst, name, courseId, result)
         } else {
             QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
