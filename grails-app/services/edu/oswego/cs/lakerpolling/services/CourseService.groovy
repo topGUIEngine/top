@@ -61,7 +61,7 @@ class CourseService {
      * @param userIds - The list of user ids to remove.
      * @return A query result object.
      */
-    QueryResult deleteStudentCourse(AuthToken token, long courseId, List userIds) {
+    QueryResult deleteStudentCourse(AuthToken token, long courseId, List<String> userIds) {
         QueryResult res = new QueryResult()
         User requestingUser = token?.user
         Course course = Course.findById(courseId)

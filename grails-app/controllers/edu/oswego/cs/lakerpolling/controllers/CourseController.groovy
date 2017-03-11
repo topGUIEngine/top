@@ -64,8 +64,8 @@ class CourseController {
 
     }
 
-    def deleteCourseStudent(String access_token, String course_id) {
-        println(course_id)
+    def deleteCourseStudent(String access_token, String course_id, String user_id) {
+//        println(course_id)
         QueryResult<AuthToken> checks = new QueryResult<>()
 
         preconditionService.notNull(params, ["access_token", "course_id", "user_id"], checks)
@@ -73,7 +73,7 @@ class CourseController {
 
         if (checks.success) {
             if (course_id.isLong()) {
-                List userIds = params.list("user_id")
+                List<String> userIds = user_id.indexOf(",") != -1 ? user_id.split(",").toList() : [user_id]
                 QueryResult result = courseService.deleteStudentCourse(checks.data, course_id.toLong(), userIds)
                 if (result.success) {
                     render(view: 'deleteResult', model: [token: checks.data])
