@@ -8,12 +8,15 @@ import edu.oswego.cs.lakerpolling.util.QueryResult
 import edu.oswego.cs.lakerpolling.util.RoleType
 import grails.transaction.Transactional
 import org.springframework.http.HttpStatus
+import org.springframework.web.multipart.MultipartFile
 
 /**
  * Service to perform transactional operations relating to {@link Course} model.
  */
 @Transactional
 class CourseService {
+    UserService userService
+    CourseListParserService courseListParserService
 
     /**
      * Deletes a specified course. The role of the requesting user is taken into consideration. Only admin and
@@ -52,6 +55,34 @@ class CourseService {
 
         res
     }
+
+    QueryResult<List<User>> postStudentsToCourse(AuthToken token, String courseId, List<String> emails) {
+        QueryResult<List<User>> result = new QueryResult<>()
+        User requestingUser = token?.user
+        long cid = courseId.isLong() ? courseId.toLong() : -1
+
+        if (requestingUser != null && cid != -1) {
+            Course course = Course.findById(cid)
+            if (course != null) {
+                if (hasInstructorAccess(requestingUser, course)) {
+                    List<User> users = new ArrayList<>()
+                    for (email in emails) {
+                        users.add(userService.getOrMakeByEmail(email))
+                    }
+                    result.data = users
+                } else {
+                    QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, result)
+                }
+            } else {
+                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
+            }
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, result)
+        }
+
+        result
+    }
+
 
     QueryResult deleteStudentCourse(AuthToken token, int courseId, List userIds) {
         QueryResult res = new QueryResult()
@@ -127,10 +158,7 @@ class CourseService {
         if (user.role.type == RoleType.ADMIN) {
             return true
         }
-        if (user.role.type == RoleType.INSTRUCTOR && isInstructorOf(user, course)) {
-            return true
-        }
-        return false
+        return user.role.type == RoleType.INSTRUCTOR && isInstructorOf(user, course)
     }
 
     /**

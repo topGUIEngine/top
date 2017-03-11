@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.apache.commons.csv.CSVRecord
 import org.springframework.http.HttpStatus
+import org.springframework.web.multipart.MultipartFile
 
 class CourseListParserService {
 
@@ -29,6 +30,26 @@ class CourseListParserService {
 
     private static final CSVFormat format = CSVFormat.DEFAULT.withFirstRecordAsHeader().withAllowMissingColumnNames().withIgnoreSurroundingSpaces()
 
+    QueryResult<List<String>> parse(MultipartFile file, QueryResult<List<String>> result = new QueryResult<>()) {
+        BufferedReader reader = null
+        try {
+            reader = new BufferedReader(new InputStreamReader(file.getInputStream()))
+            parse(reader, result)
+        }  catch(Exception e) {
+            e.printStackTrace()
+            QueryResult.fromHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR, result)
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close()
+                }
+            } catch(IOException e) {
+                e.printStackTrace()
+            }
+        }
+        result
+    }
+
      /**
      * Parses the given CSV file as a course list of students. The first row in the CSV file must be a header row, which
      * must contain a header labeled either "Email" or "Username" (case insensitive). For each record in the file the
@@ -39,17 +60,18 @@ class CourseListParserService {
      * @param reader - a Reader object associated with a character stream for a CSV file containing a list of students
      * @return a list of student emails extracted from the CSV file
      */
-    QueryResult<List<String>> parse(Reader reader) {
-        def result = new QueryResult<>()
+    QueryResult<List<String>> parse(Reader reader, QueryResult<List<String>> result = new QueryResult<>()) {
         try {
             CSVParser parser = format.parse(reader)
             def columnIndexMap = parseHeader(parser.getHeaderMap())
             verifyHeaderFormat(columnIndexMap, result)
             parseRecords(columnIndexMap, parser, result)
-        }catch (IllegalArgumentException ignored) {
+        }catch (IllegalArgumentException e1) {
+            e1.printStackTrace()
             QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
-        } catch (IOException ignored) {
-            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
+        } catch (Exception e2) {
+            e2.printStackTrace()
+            QueryResult.fromHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR, result)
         }
         result
     }
