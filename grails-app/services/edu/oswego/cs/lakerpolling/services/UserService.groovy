@@ -1,6 +1,7 @@
 package edu.oswego.cs.lakerpolling.services
 
 import edu.oswego.cs.lakerpolling.domains.AuthToken
+import edu.oswego.cs.lakerpolling.domains.Role
 import edu.oswego.cs.lakerpolling.domains.User
 import edu.oswego.cs.lakerpolling.util.Pair
 import edu.oswego.cs.lakerpolling.util.QueryResult
@@ -21,7 +22,7 @@ class UserService {
      * @param user - The user to check
      * @return A boolean representing whether the user is an Instructor
      */
-    boolean checkIfInstructor(User user) { user.role.type.equals(RoleType.INSTRUCTOR) }
+    boolean checkIfInstructor(User user) { user.role.type == RoleType.INSTRUCTOR }
 
     /**
      * Gets the user with the specified access token
@@ -103,7 +104,7 @@ class UserService {
             user = User.findByEmail(email)
 
             if (user == null) {// didn't find it, so this is a new user.
-                user = new User(firstName: first, lastName: last, imageUrl: imageUrl, email: email).save(flush: true, failOnError: true)
+                user = new User(firstName: first, lastName: last, imageUrl: imageUrl, email: email)
             } else {//found the user by email, this must be a pre-loaded account
                 if (user.imageUrl == null) {
                     user.imageUrl = imageUrl
@@ -120,8 +121,10 @@ class UserService {
                 user.save(flush: true, failOnError: true)
             }
 
-            //associate a token with the user
-            token = new AuthToken(user: user, subject: subj, accessToken: accessTokenHash).save(flush: true, failOnError: true)
+            user.setRole(new Role(type: RoleType.STUDENT))
+            user.setAuthToken(new AuthToken(subject: subj, accessToken: accessTokenHash))
+            user.save(flush: true, failOnError: true)
+            token = user.authToken
         }
 
         user != null ? Optional.of(new Pair<User, AuthToken>(user, token))

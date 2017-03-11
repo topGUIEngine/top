@@ -99,16 +99,13 @@ class CourseController {
             def results = courseService.getAllStudents(require.data, course_id)
             if (results.success) {
                 render(view: 'getStudentList', model: [token: require.data])
-                return
             }
             else {
                 render(view: '../failure', model: [errorCode: results.errorCode, message: results.message])
-                return
             }
         }
         else {
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
-            return
         }
     }
 
