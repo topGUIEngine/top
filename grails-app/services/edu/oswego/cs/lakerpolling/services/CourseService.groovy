@@ -310,4 +310,48 @@ class CourseService {
         return false
     }
 
+    /**
+     * Lists all courses that are related to the user
+     * @param token - The token to use to retrieve the requesting user.
+     * @return The result of the operations
+     */
+    QueryResult<List<Course>> getAllCourses(AuthToken token) {
+        QueryResult<List<Course>> res = new QueryResult<>()
+        User requestingUser = token?.user
+        List<Course> studentsCourses
+
+        //checks to see if the user is an instructor
+        if(requestingUser != null && requestingUser.role.type == RoleType.INSTRUCTOR) {
+            res.data = Course.findAllByInstructor(requestingUser)
+        } else if(requestingUser != null && requestingUser.role.type == RoleType.STUDENT){
+            List<Course> allCourses = Course.getAll()
+            studentsCourses = allCourses.containsStudent(allCourses, requestingUser)
+            res.data = studentsCourses
+        } else if(requestingUser != null && requestingUser.role.type == RoleType.ADMIN){
+            res.data = Course.getAll()
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
+        }
+        return res
+    }
+
+    /**
+     *
+     * @param token
+     * @param user_id
+     * @return
+     */
+    QueryResult<Course>getAllCourses(AuthToken token, String courseId) {
+        QueryResult<Course> res = new QueryResult<>()
+        User requestingUser = token?.user
+        long cid = courseId.isLong() ? courseId.toLong() : -1
+
+        if (requestingUser != null && cid != -1) {
+            Course course = Course.findById(cid)
+            res.data = course
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED)
+        }
+        return res
+    }
 }
