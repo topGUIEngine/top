@@ -37,7 +37,7 @@ class CourseController {
      */
     def postCourse(String access_token, String course_id, String name, String user_id) {
         def require = preconditionService.notNull(params, ["access_token", "course_id", "name"])
-        AuthToken token = preconditionService.accessToken(access_token, require)
+        AuthToken token = preconditionService.accessToken(access_token, require).data
 
         if(require.success) {
             def adminCreate = preconditionService.notNull(params, ["user_id"])
@@ -100,16 +100,13 @@ class CourseController {
             def results = courseService.getAllStudents(require.data, course_id)
             if (results.success) {
                 render(view: 'getStudentList', model: [token: require.data])
-                return
             }
             else {
                 render(view: '../failure', model: [errorCode: results.errorCode, message: results.message])
-                return
             }
         }
         else {
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
-            return
         }
     }
 
@@ -162,8 +159,8 @@ class CourseController {
         }
     }
 
-    def deleteCourseStudent(String access_token, String course_id) {
-        println(course_id)
+    def deleteCourseStudent(String access_token, String course_id, String user_id) {
+//        println(course_id)
         QueryResult<AuthToken> checks = new QueryResult<>()
 
         preconditionService.notNull(params, ["access_token", "course_id", "user_id"], checks)
@@ -171,7 +168,7 @@ class CourseController {
 
         if (checks.success) {
             if (course_id.isLong()) {
-                List userIds = params.list("user_id")
+                List<String> userIds = user_id.indexOf(",") != -1 ? user_id.split(",").toList() : [user_id]
                 QueryResult result = courseService.deleteStudentCourse(checks.data, course_id.toLong(), userIds)
                 if (result.success) {
                     render(view: 'deleteResult', model: [token: checks.data])

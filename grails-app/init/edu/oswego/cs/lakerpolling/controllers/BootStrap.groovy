@@ -43,6 +43,12 @@ class BootStrap {
         inst2.setRole(new Role(type: RoleType.INSTRUCTOR))
         inst2.setAuthToken(new AuthToken(subject: "sub-inst-2", accessToken: "ins2"))
         inst2.save(flush: true, failOnError: true)
+
+        User admin = new User(firstName: "admin", lastName: "admin", email: "cooladmin@gmail.com", imageUrl: "cool")
+        admin.setRole(new Role(type: RoleType.ADMIN))
+        admin.setAuthToken(new AuthToken(subject: "sub-ad-1", accessToken: "ad1"))
+        admin.save(flush: true, failOnError: true)
+
         /*End instructors*/
 
 
