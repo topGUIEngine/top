@@ -8,7 +8,6 @@ import edu.oswego.cs.lakerpolling.util.QueryResult
 import edu.oswego.cs.lakerpolling.util.RoleType
 import grails.transaction.Transactional
 import org.springframework.http.HttpStatus
-import org.springframework.web.multipart.MultipartFile
 
 /**
  * Service to perform transactional operations relating to {@link Course} model.
@@ -116,8 +115,6 @@ class CourseService {
         result
     }
 
-
-    QueryResult deleteStudentCourse(AuthToken token, int courseId, List userIds) {
     /**
      * Removes a list of students from a given course. The request is allowed if the requesting user's role
      * is ADMIN or is instructor of the course.
