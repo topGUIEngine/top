@@ -34,7 +34,7 @@ class CourseController {
      */
     def postCourse(String access_token, String course_id, String name, String user_id) {
         def require = preconditionService.notNull(params, ["access_token", "course_id", "name"])
-        AuthToken token = preconditionService.accessToken(access_token, require)
+        AuthToken token = preconditionService.accessToken(access_token, require).data
 
         if(require.success) {
             def adminCreate = preconditionService.notNull(params, ["user_id"])
