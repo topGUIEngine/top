@@ -1,4 +1,4 @@
-package course
+import edu.oswego.cs.lakerpolling.domains.AuthToken
 
 response.status OK.value()
 model {
