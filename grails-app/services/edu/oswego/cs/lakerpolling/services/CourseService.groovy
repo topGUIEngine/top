@@ -344,11 +344,14 @@ class CourseService {
     QueryResult<Course>getAllCourses(AuthToken token, String courseId) {
         QueryResult<Course> res = new QueryResult<>()
         User requestingUser = token?.user
+
         long cid = courseId.isLong() ? courseId.toLong() : -1
 
         if (requestingUser != null && cid != -1) {
             Course course = Course.findById(cid)
-            res.data = course
+            List<Course> selectedCourse = new List<>()
+            selectedCourse.add(course)
+            res.data = selectedCourse
         } else {
             QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED)
         }

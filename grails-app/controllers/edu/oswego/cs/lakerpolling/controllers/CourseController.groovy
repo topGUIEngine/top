@@ -26,7 +26,7 @@ class CourseController {
                     courseService.getAllCourses(require.data)
                     : courseService.getAllCourses(require.data, course_id)
             if (result.success) {
-                render(view: '../ListResult', model: [token: require.data])
+                render(view: 'ListResult', model: [token: require.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }
