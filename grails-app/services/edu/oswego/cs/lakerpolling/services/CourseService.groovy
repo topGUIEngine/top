@@ -322,13 +322,13 @@ class CourseService {
 
         //checks to see if the user is an instructor
         if(requestingUser != null && requestingUser.role.type == RoleType.INSTRUCTOR) {
-            res.data = Course.findAllByInstructor(requestingUser)
-        } else if(requestingUser != null && requestingUser.role.type == RoleType.STUDENT){
+            res.data = Course.findAllByInstructor(requestingUser) // courses that are owned by the instructor
+        } else if(requestingUser != null && requestingUser.role.type == RoleType.STUDENT){ // checks to see if the user is a student
             List<Course> allCourses = Course.getAll()
             studentsCourses = allCourses.containsStudent(allCourses, requestingUser)
-            res.data = studentsCourses
-        } else if(requestingUser != null && requestingUser.role.type == RoleType.ADMIN){
-            res.data = Course.getAll()
+            res.data = studentsCourses // all the courses that the student belongs to
+        } else if(requestingUser != null && requestingUser.role.type == RoleType.ADMIN){ // checks to see if the user is an admin
+            res.data = Course.getAll() // all courses under the admin
         } else {
             QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED, res)
         }
@@ -336,10 +336,10 @@ class CourseService {
     }
 
     /**
-     *
-     * @param token
-     * @param user_id
-     * @return
+     *Gives the course with the requested course id
+     * @param token - The auth token of the user
+     * @param courseId - the id of the requested course
+     * @return the result of the operations
      */
     QueryResult<List<Course>>getAllCourses(AuthToken token, String courseId) {
         QueryResult<List<Course>> res = new QueryResult<>()

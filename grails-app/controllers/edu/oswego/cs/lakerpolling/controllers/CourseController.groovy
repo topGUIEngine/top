@@ -17,6 +17,11 @@ class CourseController {
     CourseService courseService
     CourseListParserService courseListParserService
 
+    /**
+     * Endpoint to GET a course or list of courses
+     * @param access_token - the access token of the requesting user
+     * @param course_id - only needed when searching for a specific course. otherwise input as null
+     */
     def courseGet(String access_token, String course_id) {
         def require = preconditionService.notNull(params, ["access_token"])
         preconditionService.accessToken(access_token, require)
