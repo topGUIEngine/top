@@ -15,5 +15,4 @@ class VerifierServiceSpec extends Specification {
     def cleanup() {
     }
 
-
 }
