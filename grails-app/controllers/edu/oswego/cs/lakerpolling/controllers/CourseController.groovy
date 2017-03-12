@@ -31,7 +31,7 @@ class CourseController {
                     courseService.getAllCourses(require.data)
                     : courseService.getAllCourses(require.data, course_id)
             if (result.success) {
-                render(view: 'ListResult', model: [token: require.data, courses: result.data])
+                render(view: 'courseList', model: [token: require.data, courses: result.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }
@@ -43,25 +43,24 @@ class CourseController {
     /**
      * Endpoint to POST a new course to the server
      * @param access_token - The access token of the requesting user
-     * @param course_id - the id of the course being added
+     * @param crn - the id of the course being added
      * @param name - the name of the course being added
      * @param user_id - the user id of the instructor the course will be added to
      */
-    def postCourse(String access_token, String course_id, String name, String user_id) {
-        def require = preconditionService.notNull(params, ["access_token", "course_id", "name"])
+    def postCourse(String access_token, String crn, String name, String user_id) {
+        def require = preconditionService.notNull(params, ["access_token", "crn", "name"])
         AuthToken token = preconditionService.accessToken(access_token, require).data
-
         if(require.success) {
             def adminCreate = preconditionService.notNull(params, ["user_id"])
             def result
             if(adminCreate.success) {
-                result = courseService.adminCreateCourse(token, course_id, name, user_id)
+                result = courseService.adminCreateCourse(token, crn, name, user_id)
             } else {
-                result = courseService.instructorCreateCourse(token, course_id, name)
+                result = courseService.instructorCreateCourse(token, crn, name)
             }
 
             if(result.success) {
-                render(view: 'newCourse', model: result.data)
+                render(view: 'newCourse', model: [course: result.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }
@@ -108,10 +107,9 @@ class CourseController {
         preconditionService.accessToken(access_token, require)
 
         if (require.success) {
-//            println("All good here! This statement runs!")
             def results = courseService.getAllStudents(require.data, course_id)
             if (results.success) {
-                render(view: 'getStudentList', model: [token: require.data, courseID: course_id.toLong(), students: results.data])
+                render(view: 'studentList', model: [token: require.data, courseID: course_id.toLong(), students: results.data])
             }
             else {
                 render(view: '../failure', model: [errorCode: results.errorCode, message: results.message])
@@ -162,7 +160,7 @@ class CourseController {
 
             def result = courseService.postStudentsToCourse(token, course_id, emails)
             if (result.success) {
-                render(view: 'postStudentsResult', model: [token: token, courseID: course_id.toLong(), students: result.data])
+                render(view: 'studentList', model: [token: token, courseID: course_id.toLong(), students: result.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }

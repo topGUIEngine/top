@@ -9,7 +9,6 @@ json {
     status "success"
     data {
         accessToken : course.instructor.authToken
-        name : course.name
-        crn : course.crn
+        course g.render(template: "../templates/course", model: [course:course])
     }
 }

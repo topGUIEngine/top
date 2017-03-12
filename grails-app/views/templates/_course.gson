@@ -7,6 +7,5 @@ model {
 json {
     name course.name
     crn course.crn
-    students course.students?.size()
-    instructor g.render(template: '../templates/user', model: [user : course.instructor])
+    students course.students != null ? course.students?.size() : 0
 }

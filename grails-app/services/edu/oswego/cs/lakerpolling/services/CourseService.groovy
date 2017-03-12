@@ -164,15 +164,15 @@ class CourseService {
     /**
      * Creates a course for an instructor
      * @param token - The AuthToken of the instructor
-     * @param courseId - The crn of the course being created
+     * @param crn - The crn of the course being created
      * @param name - The name of the course to be created
      * @param result - Optional result to store data in
      * @return query results
      */
-    QueryResult<Course> instructorCreateCourse(AuthToken token, String courseId, String name, QueryResult<Course> result = new QueryResult<>(success: true)) {
-        User instructor = User.findByAuthToken(token)
-        if (isInstructorOrAdmin(instructor.role) && !courseExists(courseId)) {
-            result = createCourse(instructor, name, courseId, result)
+    QueryResult<Course> instructorCreateCourse(AuthToken token, String crn, String name, QueryResult<Course> result = new QueryResult<>(success: true)) {
+        User instructor = token?.user
+        if (isInstructorOrAdmin(instructor.role) && !courseExists(crn)) {
+            result = createCourse(instructor, name, crn, result)
         } else {
             QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
         }
@@ -182,17 +182,17 @@ class CourseService {
     /**
      * Creates a course for an instructor as an admin
      * @param token - The AuthToken of the admin
-     * @param courseId - The crn of the course being created
+     * @param crn - The crn of the course being created
      * @param name - The name of the course being created
      * @param instructor - The instructor who will own the course
      * @param result - Optional result to store data in
      * @return query results
      */
-    QueryResult<Course> adminCreateCourse(AuthToken token, String courseId, String name, String instructor, QueryResult<Course> result = new QueryResult<>(success: true)) {
-        User admin = User.findByAuthToken(token)
+    QueryResult<Course> adminCreateCourse(AuthToken token, String crn, String name, String instructor, QueryResult<Course> result = new QueryResult<>(success: true)) {
+        User admin = token?.user
         User inst = User.findById(Long.parseLong(instructor))
-        if (admin.role.type == RoleType.ADMIN && inst.role.type == RoleType.INSTRUCTOR && !courseExists(courseId)) {
-            result = createCourse(inst, name, courseId, result)
+        if (admin.role.type == RoleType.ADMIN && inst.role.type == RoleType.INSTRUCTOR && !courseExists(crn)) {
+            result = createCourse(inst, name, crn, result)
         } else {
             QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST, result)
         }
@@ -203,12 +203,12 @@ class CourseService {
      * Creates a course
      * @param instructor - The instructor who will own a course
      * @param name - The name of the course
-     * @param courseId - The crn of the course
+     * @param crn - The crn of the course
      * @param result - the QueryResult of the request
      * @return query results
      */
-    private QueryResult<Course> createCourse(User instructor, String name, String courseId, QueryResult<Course> result) {
-        Course course = new Course(name: name, crn: courseId, instructor: instructor)
+    private QueryResult<Course> createCourse(User instructor, String name, String crn, QueryResult<Course> result) {
+        Course course = new Course(name: name, crn: crn, instructor: instructor)
         course.save(flush: true, failOnError: true)
         result.data = course
         result
