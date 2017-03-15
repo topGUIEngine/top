@@ -13,7 +13,7 @@ json {
     status "success"
     data {
         accessToken token.accessToken
-        user g.render(template: "../template/user", model: [user:user])
+        user g.render(template: "../templates/user", model: [user:user])
     }
 
 }
