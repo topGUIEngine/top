@@ -304,8 +304,12 @@ class CourseService {
             res.data = Course.findAllByInstructor(requestingUser) // courses that are owned by the instructor
         } else if (requestingUser != null && requestingUser.role.type == RoleType.STUDENT) {
             // checks to see if the user is a student
-            List<Course> allCourses = Course.getAll()
-            studentsCourses = allCourses.containsStudent(allCourses, requestingUser)
+
+            studentsCourses = Course.createCriteria().list {
+                students {
+                    eq('id', requestingUser.id)
+                }
+            }
 
             res.data = studentsCourses // all the courses that the student belongs to
         } else if (requestingUser != null && requestingUser.role.type == RoleType.ADMIN) {
