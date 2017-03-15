@@ -11,5 +11,5 @@ json {
     name String.format("%s %s", user.firstName, user.lastName)
     email user.email
     imageUrl user.imageUrl
-    type user.role == null ? "STUDENT" : user.role.type.name()
+    type user.role.type.name()
 }
