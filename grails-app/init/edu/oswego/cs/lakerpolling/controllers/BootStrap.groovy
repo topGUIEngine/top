@@ -31,6 +31,11 @@ class BootStrap {
         stu2.setAuthToken(new AuthToken(subject: 'sub-stu-2', accessToken: 'dd'))
         stu2.save(flush: true, failOnError: true)
 
+        User michael = new User(firstName: "Michael", lastName: "Cavataio", email: "mcavatai@oswego.edu", imageUrl: "http://media.salon.com/2015/01/chrissy_teigen.jpg")
+        michael.setRole(new Role(type: RoleType.STUDENT))
+        stu2.setAuthToken(new AuthToken(subject: "michael-stu", accessToken: "ee"))
+        michael.save(flush: true, failOnError: true)
+
         /* End students*/
 
         /* instructors */
@@ -56,6 +61,7 @@ class BootStrap {
         Course csc480 = new Course(name: "CSC 480", crn: 11111, instructor: inst1)
         csc480.addToStudents(a)
         csc480.addToStudents(b)
+        csc480.addToStudents(michael);
         csc480.save(flush: true, failOnError: true)
 
 
