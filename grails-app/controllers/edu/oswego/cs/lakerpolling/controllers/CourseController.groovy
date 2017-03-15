@@ -23,11 +23,12 @@ class CourseController {
      * @param course_id - only needed when searching for a specific course. otherwise input as null
      */
     def courseGet(String access_token, String course_id) {
-        def require = preconditionService.notNull(params, ["access_token"])
+        def require = new QueryResult<AuthToken>()
+        preconditionService.notNull(params, ["access_token"], require)
         preconditionService.accessToken(access_token, require)
 
         if (require.success) {
-            QueryResult<Course> result = course_id == null ?
+            QueryResult<List<Course>> result = course_id == null ?
                     courseService.getAllCourses(require.data)
                     : courseService.getAllCourses(require.data, course_id)
             if (result.success) {
