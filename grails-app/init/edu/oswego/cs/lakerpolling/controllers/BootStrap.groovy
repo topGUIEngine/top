@@ -68,6 +68,7 @@ class BootStrap {
         Course hci521 = new Course(name:  "HCI 521", crn: 22222, instructor: inst2)
         hci521.addToStudents(stu)
         hci521.addToStudents(stu2)
+        hci521.addToStudents(michael)
         hci521.save(flush: true, failOnError: true)
         /*End courses*/
 
