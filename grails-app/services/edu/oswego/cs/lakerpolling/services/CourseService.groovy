@@ -307,9 +307,9 @@ class CourseService {
 
             studentsCourses = Course.createCriteria().list {
                 students {
-                    eq('id', requestingUser.id)
+                    eq ('id', requestingUser.id)
                 }
-            }
+            } as List<Course>
 
             res.data = studentsCourses // all the courses that the student belongs to
         } else if (requestingUser != null && requestingUser.role.type == RoleType.ADMIN) {
