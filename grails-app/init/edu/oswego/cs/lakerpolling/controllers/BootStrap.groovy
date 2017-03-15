@@ -33,7 +33,7 @@ class BootStrap {
 
         User michael = new User(firstName: "Michael", lastName: "Cavataio", email: "mcavatai@oswego.edu", imageUrl: "http://media.salon.com/2015/01/chrissy_teigen.jpg")
         michael.setRole(new Role(type: RoleType.STUDENT))
-        michael.setAuthToken(new AuthToken(subject: "michael-stu", accessToken: "ee"))
+//        michael.setAuthToken(new AuthToken(subject: "michael-stu", accessToken: "ee"))
         michael.save(flush: true, failOnError: true)
 
         /* End students*/
