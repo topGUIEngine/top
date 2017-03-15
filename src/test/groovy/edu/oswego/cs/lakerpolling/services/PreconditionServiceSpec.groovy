@@ -6,14 +6,13 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(AuthService)
-class AuthServiceSpec extends Specification {
+@TestFor(PreconditionService)
+class PreconditionServiceSpec extends Specification {
 
     def setup() {
     }
 
     def cleanup() {
     }
-
 
 }
