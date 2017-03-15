@@ -25,7 +25,7 @@ apply plugin:"asset-pipeline"
 assets {
     minifyJs = false
     minifyCss = false
-    enableSourceMaps = false
+//    enableSourceMaps = false
 }
 
 repositories {

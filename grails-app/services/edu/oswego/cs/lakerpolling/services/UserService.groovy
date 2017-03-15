@@ -120,7 +120,6 @@ class UserService {
                 user.save(flush: true, failOnError: true)
             }
 
-            user.setRole(new Role(type: RoleType.STUDENT))
             user.setAuthToken(new AuthToken(subject: subj, accessToken: accessTokenHash))
             user.save(flush: true, failOnError: true)
             token = user.authToken
