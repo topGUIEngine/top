@@ -6,15 +6,13 @@ angularApp
         $scope.currentUser = User.getCurrent();
         $scope.courses = [];
 
-            console.log($scope.currentUser.getAccessToken());
         //get courses
          $http({
          method: 'GET',
          url: '/api/course?access_token=' + $scope.currentUser.getAccessToken()
          })
           .then(function(response) {
-            console.log(response.data);
-            $scope.courses = response.data.courses;
+            $scope.courses = response.data.data.courses;
 //            $scope.currentUser.setToken(response.data.token);
           });
     })
