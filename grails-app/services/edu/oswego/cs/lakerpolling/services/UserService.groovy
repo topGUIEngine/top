@@ -104,6 +104,7 @@ class UserService {
 
             if (user == null) {// didn't find it, so this is a new user.
                 user = new User(firstName: first, lastName: last, imageUrl: imageUrl, email: email)
+                user.setRole(new Role(type: RoleType.STUDENT))
             } else {//found the user by email, this must be a pre-loaded account
                 if (user.imageUrl == null) {
                     user.imageUrl = imageUrl
