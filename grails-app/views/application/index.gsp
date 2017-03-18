@@ -56,6 +56,10 @@
     <!-- ============== START NPROGRESS CSS Resources ============== -->
     <link rel="stylesheet" href="${resource(dir: 'clientapp', file: 'css/libs/nprogress/nprogress.css')}">
 
+    <link rel="stylesheet" href="${resource(dir: 'clientapp', file: 'css/login.css')}">
+
+    <link rel="stylesheet" href="${resource(dir: 'clientapp', file: 'css/studentDashboard.css')}">
+
 
     <!-- ============== END NPROGRESS CSS Resources ============== -->
     <!-- ============== END CSS Resources ============== -->
