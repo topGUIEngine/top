@@ -1,7 +1,7 @@
 server {
     port = 8080 //change this if you need.
 }
-
+//        url = "jdbc:mysql://<HOST>:<PORT>/<DATABASE NAME>"
 googleauth {
     clientId = 'Your client id here'
     issuer = 'accounts.google.com'
