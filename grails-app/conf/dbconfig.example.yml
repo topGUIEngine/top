@@ -1,0 +1,19 @@
+environments:
+    development:
+        dataSource:
+            driverClassName: org.postgresql.Driver
+            username: lakerpollingadmin
+            password: password
+            url: jdbc:postgresql://localhost:5432/lakerpollingdb
+    test:
+        dataSource:
+            driverClassName: org.postgresql.Driver
+            username: lakerpollingadmin
+            password: password
+            url: jdbc:postgresql://localhost:5432/lakerpollingdb
+    production:
+        dataSource:
+            driverClassName: org.postgresql.Driver
+            username: lakerpollingadmin
+            password: password
+            url: jdbc:postgresql://localhost:5432/lakerpollingdb
