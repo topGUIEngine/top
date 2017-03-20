@@ -17,14 +17,26 @@ following command.
 ./grailsw run-app
 ```
 
-## How to add a data source.
-The following details how to configure this project to use a database (We'll be usng 
+## How to configure a data source.
+The following details how to configure this project to use a database (We'd recommend using 
 [Postgres](https://www.postgresql.org/)) rather than the 
 in-memory data store used by default. This assumes you already have a valid installation of
 Postgres or MySQL on your system. If not, look up a guide to install one on your OS.
 
-Copy and paste the file [dbconfig.example.yml](./grails-app/conf/dbconfig.example.yml)
-under the <i>[grails-app/conf](./grails-app/conf)</i> directory.
+We'll also assume you have a database and a user for that database created. Once again,
+follow a guide for the data store you are using.
+
+Copy the file [dbconfig.example.yml](./grails-app/conf/dbconfig.example.yml)
+under the <i>[grails-app/conf](./grails-app/conf)</i> directory as <i>dbconfig.yml.</i>
+
+Edit this file and replace the placeholders such as 
+<b>`username: <YOUR DATABASE USER NAME HERE>`</b> 
+with your actual information.
+
+Note the lines 
+`driverClassName: org.postgresql.Driver # use com.mysql.jdbc.Driver for MySQL` and
+`url: jdbc:postgresql://<HOST>:<PORT>/<DATABASE NAME> # use jdbc:mysql://<HOST>:<PORT>/<DATABASE NAME> for mysql`
+change depending on if you're using Postgres or MySQL.
 
 ## Teams
 ### Requirements
