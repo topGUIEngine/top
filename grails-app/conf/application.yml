@@ -6,6 +6,8 @@ grails:
     spring:
         transactionManagement:
             proxies: false
+
+
 info:
     app:
         name: '@info.app.name@'
@@ -117,10 +119,6 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-
-
-
-
 
 
 
