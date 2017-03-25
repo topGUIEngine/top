@@ -25,11 +25,10 @@ class AuthController {
             String first = payload.get("given_name").toString()
             String last = payload.get("family_name").toString()
             String imageUrl = payload.get("picture").toString()
-            String accessTokenHash = payload.getAccessTokenHash()
             String email = payload.getEmail()
 
             Optional<Pair<User, AuthToken>> optionalInfo = userService.getMakeOrUpdate(
-                    subj, first, last, imageUrl, accessTokenHash, email
+                    subj, first, last, imageUrl, email
             )
 
             if (optionalInfo.isPresent()) {
