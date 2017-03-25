@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>Laker Polling</title>
 </head>
 <body>
-    <div class="container-fluid" style="max-width:850px">
+    <div class="container" style="max-width:850px">
         <div class="row">
             <div class="span4"></div>
             <div class="span4">
@@ -16,7 +16,6 @@
             <div class="span4"></div>
         </div>
     </div>
-
 
 <asset:javascript src="jquery-3.2.0.min.js"/>
 <script src="https://apis.google.com/js/platform.js"></script>
