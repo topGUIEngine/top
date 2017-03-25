@@ -103,11 +103,14 @@ class UserService {
                 user.lastName = last
                 user.imageUrl = imageUrl
             }
-
-            user.setAuthToken(new AuthToken(subject: subj, accessToken: UUID.randomUUID()))
         }
 
         user = user.save(flush: true, failOnError: true)
+        if(user.authToken == null) {
+            user.setAuthToken(new AuthToken(subject: subj, accessToken: UUID.randomUUID()))
+            user = user.save(flush: true, failOnError: true)
+        }
+
         token = user.authToken
 
         user != null ? Optional.of(new Pair<User, AuthToken>(user, token))
