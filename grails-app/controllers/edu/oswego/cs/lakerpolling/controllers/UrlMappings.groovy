@@ -12,6 +12,7 @@ class UrlMappings {
 
         /* Auth endpoints */
         "/user/auth"(controller: 'auth', action: 'auth', method:'post')
+        "/user/auth"(controller: 'auth', action: 'current', method:'get')
         "/user/logout"(controller: 'auth', action: 'logout', method: 'post')
 
 

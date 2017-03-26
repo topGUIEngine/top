@@ -43,6 +43,20 @@ class AuthController {
         }
     }
 
+    def current() {
+        String token = session.getAttribute("access").toString()
+        if (token != null) {
+            QueryResult<User> result = userService.getUser(token)
+            if (result.success) {
+                render(view: '/templates/_user', model: [user: result.data])
+            } else {
+                render(view: '/failure', model: [errorCode: result.errorCode, message: result.message])
+            }
+        } else {
+            render(view: '/unauthorized')
+        }
+    }
+
     def logout() {
         String access = session.getAttribute("access")
         if (access != null) {

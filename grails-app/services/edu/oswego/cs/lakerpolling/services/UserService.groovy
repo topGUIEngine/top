@@ -38,7 +38,8 @@ class UserService {
             queryResult.errorCode = HttpStatus.BAD_REQUEST.value()
             return queryResult
         }
-        User user = User.findByAuthToken(authToken)
+
+        User user = authToken.user
 
         if (user == null) {
             queryResult.message = UserErrors.USER_NOT_FOUND
