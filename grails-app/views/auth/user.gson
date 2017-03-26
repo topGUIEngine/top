@@ -4,4 +4,10 @@ model {
     User user
 }
 
-json tmpl.'/templates/user'(user: user)
+json {
+    status "success"
+    data {
+        token user.authToken.accessToken
+        user g.render(template:"/templates/user", model:[user:user])
+    }
+}

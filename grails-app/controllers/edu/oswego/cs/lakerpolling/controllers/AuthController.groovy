@@ -48,7 +48,7 @@ class AuthController {
         if (token != null) {
             QueryResult<User> result = userService.getUser(token)
             if (result.success) {
-                render(view: '/templates/_user', model: [user: result.data])
+                render(view: 'user', model: [user: result.data])
             } else {
                 render(view: '/failure', model: [errorCode: result.errorCode, message: result.message])
             }
