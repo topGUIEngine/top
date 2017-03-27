@@ -1,26 +1,61 @@
-var courses =
-    [
-        {
-            "crn": "123456",
-            "name": "test0",
-            "students": 5
-        },
-        {
-            "crn": "654321",
-            "name": "test1",
-            "students": 7
-        },
-        {
-            "crn": "246810",
-            "name": "test2",
-            "students": 9
-        }
-    ];
+var token = '';
+var courses = [];
 
 $(function() {
-    //courses = GET.allCourses
-    $('#courseTable').bootstrapTable({
-        data: courses
+    $.ajax({
+	    url: '/user/auth',
+	    method: "GET",
+	    success: function(data){
+	    	token = data.data.token;
+			var urlstr = '/api/course?=' + token;
+		    $.ajax({
+			    url: '/api/course',
+			    method: "GET",
+			    data: {
+			    	access_token: token
+			    },
+			    success: function(data){
+			    	courses = data.data.courses;
+				    $('#courseTable').bootstrapTable({
+				        data: courses
+				    });
+				}
+			});
+		}
+	});
+});
+
+
+$('#courseButton').on('click', function() {
+    console.log('Clicked');
+    $.ajax({
+        url: '/user/auth',
+        method: 'GET',
+        success: function(data) {
+            token = data.data.token;
+
+            var courseName = $('#courseName').val();
+            var courseCRN = $('#courseCRN').val();
+            var urlstring = '/api/course?access_token=' + token + '&name=' + courseName + '&crn=' + courseCRN;
+            console.log(courseName);
+            console.log(courseCRN);
+            console.log(urlstring);
+
+            $.ajax({
+                url: '/api/course',
+                method: 'POST',
+
+                data: {
+                    access_token: token,
+                    name: courseName,
+                    crn: courseCRN
+                },
+                success: function() {
+                    document.location.href = "/dashboard";
+                }
+            })
+        }
+
     });
 });
 

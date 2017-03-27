@@ -36,6 +36,10 @@ class BootStrap {
 //        michael.setAuthToken(new AuthToken(subject: "michael-stu", accessToken: "ee"))
         michael.save(flush: true, failOnError: true)
 
+        User max = new User(firstName: "Max", lastName: "Sokolovsky", email: "msokolov@oswego.edu", imageUrl: "http://media.salon.com/2015/01/chrissy_teigen.jpg")
+        max.setRole(new Role(type: RoleType.INSTRUCTOR))
+        max.save(flush: true, failOnError: true)
+
         User jeff = new User(email: "jregistr@oswego.edu")
         jeff.setRole(new Role(type: RoleType.ADMIN))
         jeff.save(flush: true, failOnError: true)

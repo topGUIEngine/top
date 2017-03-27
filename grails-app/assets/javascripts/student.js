@@ -1,28 +1,28 @@
-var courses =
-[
-    {
-        "crn": "123456",
-        "name": "test0",
-        "students": 5
-    },
-    {
-        "crn": "654321",
-        "name": "test1",
-        "students": 7
-    },
-    {
-        "crn": "246810",
-        "name": "test2",
-        "students": 9
-    }
-];
+var courses = [];
+var token = '';
 
 $(function() {
-    console.log("TEST");
-    $('#courseTable').bootstrapTable({
-        data: courses
-    });
-    console.log(courses);
+    $.ajax({
+	    url: '/user/auth',
+	    method: "GET",
+	    success: function(data){
+	    	token = data.data.token;
+			var urlstr = '/api/course?=' + token;
+		    $.ajax({
+			    url: '/api/course',
+			    method: "GET",
+			    data: {
+			    	access_token: token
+			    },
+			    success: function(data){
+			    	courses = data.data.courses;
+				    $('#courseTable').bootstrapTable({
+				        data: courses
+				    });
+				}
+			});
+		}
+	});
 });
 
 function identifierFormatter(value, row, index) {

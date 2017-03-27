@@ -38,9 +38,9 @@
         </div>
         <div class="row">
             <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-                <button id="courseButton">Create Course</button>
-            </div>
+            %{--<div class="col-sm-4">--}%
+                %{--<button id="courseButton">Create Course</button>--}%
+            %{--</div>--}%
             <div class="col-sm-4"></div>
         </div>
     </div>

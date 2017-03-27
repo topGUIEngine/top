@@ -41,9 +41,22 @@
         <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <button id="courseButton">Create Course</button>
+                <h2 style="text-align: center">Add a new course</h2>
+                <form id="addClassForm" role="form">
+                    <div class="form-group">
+                        <label for="courseName">Course name</label>
+                        <input type="text" class="form-control" id="courseName" placeholder="CSC212" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCRN">CRN</label>
+                        <input type="text" class="form-control" id="courseCRN" placeholder="133742" required>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" id="courseButton">Create Course</button>
+                </div>
             </div>
-            <div class="col-sm-4"></div>
+            </div>
         </div>
     </div>
 
