@@ -15,7 +15,6 @@ class UrlMappings {
         "/user/auth"(controller: 'auth', action: 'current', method:'get')
         "/user/logout"(controller: 'auth', action: 'logout', method: 'post')
 
-
         /* API endpoints mapping */
         group "/api/course", {
             "/"(controller: 'course', action: 'courseGet', method : 'get')

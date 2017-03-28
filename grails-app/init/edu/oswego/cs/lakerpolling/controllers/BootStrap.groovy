@@ -47,14 +47,12 @@ class BootStrap {
         /* End students*/
 
         /* instructors */
-        User inst1 = new User(firstName: "Bastian", lastName: "Temb", email: "bt@oswego.edu", imageUrl: "deutschland.png")
+        User inst1 = new User(email: "bastian.tenbergen@oswego.edu")
         inst1.setRole(new Role(type: RoleType.INSTRUCTOR))
-        inst1.setAuthToken(new AuthToken(subject: "sub-inst-1", accessToken: "ins1"))
         inst1.save(flush: true, failOnError: true)
 
-        User inst2 = new User(firstName: "Chris", lastName: "Harris", email: "charris@oswego", imageUrl: "chris.png")
+        User inst2 = new User(email: "christopher.harris@oswego.edu")
         inst2.setRole(new Role(type: RoleType.INSTRUCTOR))
-        inst2.setAuthToken(new AuthToken(subject: "sub-inst-2", accessToken: "ins2"))
         inst2.save(flush: true, failOnError: true)
 
         User admin = new User(firstName: "admin", lastName: "admin", email: "cooladmin@gmail.com", imageUrl: "cool")
