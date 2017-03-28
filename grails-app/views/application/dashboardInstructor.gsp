@@ -51,10 +51,11 @@
                         <label for="courseCRN">CRN</label>
                         <input type="text" class="form-control" id="courseCRN" placeholder="133742" required>
                     </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" id="courseButton">Create Course</button>
+                    </div>
                 </form>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success" id="courseButton">Create Course</button>
-                </div>
+
             </div>
             </div>
         </div>
