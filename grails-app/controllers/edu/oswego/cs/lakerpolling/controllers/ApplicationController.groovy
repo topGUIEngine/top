@@ -11,7 +11,7 @@ class ApplicationController {
     PreconditionService preconditionService
 
     def landing() {
-
+        render(view: 'landing')
     }
 
     def dashboard() {
