@@ -81,7 +81,7 @@ var courseId
         this.deleteCourseById = function(courseId, onSuccess, onFail) {
             _service.deleteCourseById(courseId, (courseId) => {
                 onSuccess(this.removeCourseById(courseId))
-        }, onFail)
+            }, onFail)
         }
 
         this.refreshCourseTable = function() {
@@ -111,7 +111,7 @@ var courseId
                     },
                     success: function(data) {
                         currentInstructor.setCourses(data.data.courses)
-                        if (course) {
+                        if (courseId) {
                             var course = currentInstructor.getCourseById(courseId)
                             $('#coursePageTitle').html(course.name)
                         }
@@ -191,7 +191,6 @@ var courseId
     });
 
     $('#csv-form-email').submit(function(event) {
-        // event.preventDefault();
         $.ajax({
             url: '/user/auth',
             type: 'GET',
@@ -200,8 +199,6 @@ var courseId
                 var email = $("#email").val();
 
                 console.log(email);
-
-                // course_id is hardcoded in the url!
 
                 $.ajax({
                     url: '/api/course/student?access_token=' + token + '&course_id=' + courseId + '&email=' + email,
