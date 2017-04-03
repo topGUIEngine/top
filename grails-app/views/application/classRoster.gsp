@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Instructor</title>
     <asset:stylesheet href="bootstrap.min.css"/>
+    <asset:stylesheet href="bootstrap.min.js"/>
     <asset:stylesheet href="bootstrap-theme.min.css"/>
 </head>
 <body>
@@ -44,7 +45,7 @@
     <!-- add student by email -->
     <div class="row">
         <div class="col-sm-4"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="margin-top: 40px;">
             <form id="csv-form-email" method="post">
                 <label>Add student by email</label>
                 <div class="form-cotrol">

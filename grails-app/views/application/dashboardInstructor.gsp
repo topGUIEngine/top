@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Instructor</title>
+    <asset:javascript src="jquery-3.2.0.min.js"/>
     <asset:stylesheet href="bootstrap.min.css"/>
     <asset:stylesheet href="bootstrap-theme.min.css"/>
+    <asset:javascript src="bootstrap.min.js"/>
+
     <!-- jQuery (necessary for Bootstrap"s JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -16,32 +19,28 @@
     <div class="navbar-header">
         <asset:image class="img-responsive navbar-brand" src="logo.png"/>
         <a class="navbar-brand">Instructor Dashboard</a>
-    </div>
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-            <button onclick="logout()" class="btn btn-default navbar-right navbar-btn">Logout</button>
-        </ul>
+        <button onclick="logout()" class="btn btn-default navbar-right navbar-btn">Logout</button>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
             <div id="courses" class="table-responsive">
                 <table id="courseTable" class="table">
                     <thead>
                     <tr>
-                        <th class="col-md-3" data-field="name" data-formatter="identifierFormatter">Course Name</th>
+                        <th class="col-md-1" data-field="name" data-formatter="identifierFormatter">Course Name</th>
                         <th class="col-md-1" data-field="crn">CRN</th>
-                        <th class="col-md-1" data-field="students">Number of Students</th>
+                        <th class="col-sm-1" data-field="students">Number of Students</th>
                         <th class="col-md-1" data-field="students" data-formatter="courseDeleteButtonFormatter">Delete</th>
                     </tr>
                     </thead>
                 </table>
             </div>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-md-3"></div>
     </div>
     <div class="row">
         <div class="col-sm-4"></div>
@@ -85,7 +84,6 @@
     </div>
 </div>
 
-<asset:javascript src="jquery-3.2.0.min.js"/>
 <script src="https://apis.google.com/js/platform.js"></script>
 
 <!-- Latest compiled and minified CSS -->
