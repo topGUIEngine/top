@@ -36,22 +36,26 @@ var courseId
         }
     }
     function CurrentInstructor(token) {
-        if(!token) throw Error("Token Required for Instructor")
-        var _token = token
-        var _courses = []
-        var _service = new InstructorNetworkService(this)
+        if(!token) throw Error("Token Required for Instructor");
+        var _token = token;
+        var _courses = [];
+        var _service = new InstructorNetworkService(this);
 
         this.setCourses = function(allCourses) {
             _courses = allCourses || []
             this.refreshCourseTable()
-        }
+        };
         this.addCourse = function(newCourse) {
             _courses.push(newCourse)
-        }
+        };
 
         this.getCourses = function() {
             return _courses
-        }
+        };
+
+        this.setRoster = function(course_id) {
+              this.refreshStudentTable();
+        };
 
         this.getTokenOrFetch = function(onSuccess, onFail) {
             if (_token) return onSuccess(_token)
@@ -59,7 +63,7 @@ var courseId
                 _token = token;
             onSuccess(token)
         }, onFail)
-        }
+        };
 
         this.getCourseById = function(courseId) {
             for (var i = 0; i < _courses.length; i++) {
@@ -82,16 +86,17 @@ var courseId
             _service.deleteCourseById(courseId, (courseId) => {
                 onSuccess(this.removeCourseById(courseId))
             }, onFail)
-        }
+        };
 
         this.refreshCourseTable = function() {
             $('#courseTable').bootstrapTable({
                 data: currentInstructor.getCourses()
             });
-        }
+        };
         this.refreshStudentTable = function(){
+            var roster = getCourseRoster(courseId);
             $('#studentTable').bootstrapTable({
-                data: _courses[courseId].students
+                data: roster
             });
         }
     }
@@ -110,9 +115,10 @@ var courseId
                         access_token: token
                     },
                     success: function(data) {
-                        currentInstructor.setCourses(data.data.courses)
+                        currentInstructor.setCourses(data.data.courses);
                         if (courseId) {
-                            var course = currentInstructor.getCourseById(courseId)
+                            var course = currentInstructor.getCourseById(courseId);
+                            currentInstructor.setRoster(courseId);
                             $('#coursePageTitle').html(course.name)
                         }
                     },
@@ -123,6 +129,31 @@ var courseId
             }
         });
     });
+
+    function getCourseRoster(course_id) {
+        var result = [1,2,3,4];
+        $.ajax({
+            url: '/user/auth',
+            type: 'GET',
+            async: false,
+            success: function(data) {
+                var token = data.data.token;
+                $.ajax({
+                    url: '/api/course/student?access_token=' + token + '&course_id=' + course_id,
+                    type: 'GET',
+                    async: false,
+                    success: function(stuff) {
+                        result = stuff.data.students;
+
+                    },
+                    error: function(err) {
+                        // console.log(err);
+                    }
+                });
+            }
+        });
+        return result;
+    }
 
 
     $('#courseButton').on('click', function() {
@@ -178,7 +209,7 @@ var courseId
                     contentType: false,
                     processData: false,
                     success: function(data) {
-                        console.log(formData.get('file').length)
+                        console.log(formData.get('file').length);
                         window.location.reload();
                     },
                     error: function(jqXHR, textStatus, errorMessage) {
@@ -225,27 +256,27 @@ var courseId
         })
     });
 
-    var preparedDeleteButton = false
+    var preparedDeleteButton = false;
     function prepareDeleteButton() {
-        if(preparedDeleteButton) return
+        if(preparedDeleteButton) return;
         $('.js-deleteCourseButton').click(function () {
-            const clickedButton = $(this)
+            const clickedButton = $(this);
             // debugger
-            const courseId = clickedButton.data('course-id')
-            var course = currentInstructor.getCourseById(courseId)
+            const courseId = clickedButton.data('course-id');
+            var course = currentInstructor.getCourseById(courseId);
             if (!course) {
-                alert("Course not found by id " + courseId)
+                alert("Course not found by id " + courseId);
             }
-            $('#deleteCourseModal').find('#confirmDeleteButton').data("course-id",course.id)
+            $('#deleteCourseModal').find('#confirmDeleteButton').data("course-id",course.id);
             $('#deleteCourseModal').data("course-id",  course.id);
-            $('#deleteCourseModal').find('#courseId').html(course.id)
+            $('#deleteCourseModal').find('#courseId').html(course.id);
             $('#deleteCourseModal').find('#courseName').html(course.name)
-        })
+        });
         preparedDeleteButton = true
     }
     courseDeleteButtonFormatter = function(_, course, index) {
-        var course = currentInstructor.getCourseById(course.id)
-        if(!course) return '<span style="color:red">Invalid Course</span>'
+        var course = currentInstructor.getCourseById(course.id);
+        if(!course) return '<span style="color:red">Invalid Course</span>';
         var deleteButton = '<button class="btn btn-danger js-deleteCourseButton" type="button" data-toggle="modal" data-target="#deleteCourseModal" data-course-id="' + course.id + '">'
         deleteButton += 'Delete'
         deleteButton += '</button>'
@@ -269,9 +300,9 @@ var courseId
                         access_token: token
                     },
                     success: function(data) {
-                        currentInstructor.setCourses(data.data.courses)
-                        var course = currentInstructor.getCourseById(courseId)
-                        console.log(course)
+                        currentInstructor.setCourses(data.data.courses);
+                        var course = currentInstructor.getCourseById(courseId);
+                        console.log(course);
                         $('#coursePageTitle').html(course.name)
                     },
                     error: function() {
@@ -310,19 +341,19 @@ var courseId
             '<a href="/course?courseId='+ course.id +'" class="btn btn-link" onClick="prepareClassTitle('+ course.id +')">',
             course.name,
             '</a>'].join('');
-    }
+    };
 
     $(document).ready(function() {
         $.ajax({
             url: '/user/auth',
             method: "GET",
             success: function(data){
-                var token = data.data.token
+                var token = data.data.token;
                 currentInstructor = new CurrentInstructor(token)
             }
         });
     })
-})()
+})();
 
 function prepareClassTitle(cId) {
     courseId = cId;
