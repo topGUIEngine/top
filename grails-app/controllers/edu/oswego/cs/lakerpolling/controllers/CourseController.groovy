@@ -171,7 +171,6 @@ class CourseController {
     }
 
     def deleteCourseStudent(String access_token, String course_id, String user_id) {
-//        println(course_id)
         QueryResult<AuthToken> checks = new QueryResult<>()
 
         preconditionService.notNull(params, ["access_token", "course_id", "user_id"], checks)
