@@ -34,7 +34,7 @@ class AuthController {
             if (optionalInfo.isPresent()) {
                 Pair<User, AuthToken> info = optionalInfo.get()
                 session.setAttribute("access", info.value.accessToken)
-                render(view: 'authUser')
+                render(view: 'authUser', model : [token : info.value])
             } else {
                 render(view: '../error')
             }
