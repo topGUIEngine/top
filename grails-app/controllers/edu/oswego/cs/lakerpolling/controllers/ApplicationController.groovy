@@ -15,8 +15,7 @@ class ApplicationController {
     }
 
     def dashboard() {
-        String access = session.getAttribute("access")
-        QueryResult<AuthToken> require = preconditionService.accessToken(access)
+        QueryResult<AuthToken> require = hasAccess()
         if (require.success) {
             User user = require.data.user
             RoleType type = user.role.type
@@ -34,6 +33,35 @@ class ApplicationController {
             session.invalidate()
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
+    }
+
+    def courseView(long courseId) {
+        QueryResult<AuthToken> require = hasAccess()
+        if(require.success) {
+            def preReq = preconditionService.notNull(params, ["courseId"])
+            if(preReq.success) {
+                session.setAttribute("courseId", courseId)
+                render(view: 'courseLandingInstructor')
+            } else {
+                render(view: '../failure', model: [errorCode: preReq.errorCode, message: preReq.message])
+            }
+        } else {
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
+        }
+    }
+
+    def classRoster() {
+        def require = hasAccess()
+        if(require.success) {
+            render(view: 'classRoster.gsp')
+        } else {
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
+        }
+    }
+
+    private QueryResult<AuthToken> hasAccess() {
+        String access = session.getAttribute("access")
+        preconditionService.accessToken(access)
     }
 
 }
