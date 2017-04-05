@@ -49,6 +49,7 @@ class BootStrap {
         /* instructors */
         User inst1 = new User(email: "bastian.tenbergen@oswego.edu")
         inst1.setRole(new Role(type: RoleType.INSTRUCTOR))
+        inst1.setAuthToken(new AuthToken(accessToken: "inst-1", subject: "inst-1-subj"))
         inst1.save(flush: true, failOnError: true)
 
         User inst2 = new User(email: "christopher.harris@oswego.edu")
