@@ -1,5 +1,7 @@
 package edu.oswego.cs.lakerpolling.services
 
+import edu.oswego.cs.lakerpolling.domains.Attendance
+import edu.oswego.cs.lakerpolling.domains.Attendee
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
 import edu.oswego.cs.lakerpolling.domains.Role
@@ -342,5 +344,52 @@ class CourseService {
             QueryResult.fromHttpStatus(HttpStatus.UNAUTHORIZED)
         }
         return res
+    }
+
+    QueryResult<List<Attendee>> getAllStudentAttendance(String course_id, String date) {
+        QueryResult<List<Attendee>> result = new QueryResult<>()
+        Date getDate = new Date(date)
+        def course = Course.findById(course_id.toLong())
+        if(course) {
+            def attendance = Attendance.findAllByCourse(course)
+            if(attendance) {
+                def students = attendance.find { a ->
+                    a.date == getDate
+                }
+                if(students) {
+                    result.data = students.attendees.toList()
+                    result
+                } else {
+                    QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+                }
+            } else {
+                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+            }
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    QueryResult<List<Attendee>> getStudentAttendance(String student_id, String start_date, String end_date) {
+        QueryResult<List<Attendee>> result = new QueryResult<>()
+        List<Attendee> attendeeList = new ArrayList<>()
+        Date getStart = new Date(start_date)
+        Date getEnd = new Date(end_date)
+        def student = User.findById(student_id.toLong())
+        if(student) {
+            def attendance = Attendee.findAllByStudent(student)
+            if(attendance) {
+                attendance.forEach({a ->
+                    if(a.attendance.date >= getStart || a.attendance.date <= getEnd) attendeeList.add(a)
+                })
+                result.data = attendeeList
+                result
+            } else {
+                QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+            }
+        } else {
+            QueryResult.fromHttpStatus(HttpStatus.BAD_REQUEST)
+        }
+
     }
 }

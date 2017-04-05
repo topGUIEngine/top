@@ -1,5 +1,6 @@
 package edu.oswego.cs.lakerpolling.controllers
 
+import edu.oswego.cs.lakerpolling.domains.Attendance
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
 import edu.oswego.cs.lakerpolling.services.CourseListParserService
@@ -191,6 +192,35 @@ class CourseController {
             }
         } else {
             render(view: '../failure', model: [errorCode: checks.errorCode, message: checks.message])
+        }
+
+    }
+
+    def getAttendance(String access_token, String course_id, String student_id, String date, String start_date, String end_date) {
+        QueryResult<AuthToken> check = new QueryResult<>()
+        preconditionService.notNull(params, ["access_token", "course_id"], check)
+        preconditionService.accessToken(access_token, check)
+
+        if(check.success) {
+            if(preconditionService.notNull(params, ["date"], new QueryResult<>()).success) {
+                def students = courseService.getAllStudentAttendance(course_id, date)
+                if(students.success) {
+                    render(view: 'attendanceList', model: [token: check.data, attendees: students.data])
+                } else {
+                    render(view: '../failure', model: [errorCode: students.errorCode, message: students.message])
+                }
+            } else if(preconditionService.notNull(params, ["student_id", "start_date", "end_date"], new QueryResult<>()).success) {
+                def student = courseService.getStudentAttendance(student_id, start_date, end_date)
+                if(student.success) {
+                    render(view: 'attendanceList', model: [token: check.data, attendees: student.data])
+                }else {
+                    render(view: '../failure', model: [errorCode: student.errorCode, message: student.message])
+                }
+            } else {
+                render(view: '../failure', model: [errorCode: check.errorCode, message: check.message])
+            }
+        } else {
+            render(view: '../failure', model: [errorCode: check.errorCode, message: check.message])
         }
 
     }

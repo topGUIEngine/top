@@ -26,6 +26,8 @@ class UrlMappings {
             "/student"(controller: 'course', action: 'getCourseStudent', method: 'get')
             "/student"(controller: 'course', action: 'postCourseStudent', method: 'post')
             "/student"(controller: 'course', action: 'deleteCourseStudent', method: 'delete')
+
+            "/attendance"(controller: 'course', action: 'getAttendance', method: 'get')
         }
     }
 }

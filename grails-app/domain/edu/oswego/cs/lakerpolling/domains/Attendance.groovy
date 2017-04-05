@@ -3,7 +3,7 @@ package edu.oswego.cs.lakerpolling.domains
 /**
  * Created by Josh on 3/27/17.
  */
-class Attendance {
+class Attendance implements Serializable{
     Date date
 
     static belongsTo = [course: Course]

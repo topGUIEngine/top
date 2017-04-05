@@ -1,5 +1,7 @@
 package edu.oswego.cs.lakerpolling.controllers
 
+import edu.oswego.cs.lakerpolling.domains.Attendance
+import edu.oswego.cs.lakerpolling.domains.Attendee
 import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
 import edu.oswego.cs.lakerpolling.domains.Role
@@ -78,6 +80,14 @@ class BootStrap {
         hci521.addToStudents(michael)
         hci521.save(flush: true, failOnError: true)
         /*End courses*/
+
+        /*Attendance*/
+        Attendee brandon = new Attendee(attended: true, student: stu)
+        Date someDate = new Date("1/22/91")
+        Attendance something = new Attendance(date: someDate, course: csc480)
+        something.addToAttendees(brandon)
+        something.save(flush: true, failOnError: true)
+        brandon.save(flusth: true, failOnError: true)
 
     }
 
