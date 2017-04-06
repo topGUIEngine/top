@@ -202,14 +202,14 @@ class CourseController {
         preconditionService.accessToken(access_token, check)
 
         if(check.success) {
-            if(preconditionService.notNull(params, ["date"], new QueryResult<>()).success) {
+            if(preconditionService.notNull(params, ["date"], check).success) {
                 def students = courseService.getAllStudentAttendance(course_id, date)
                 if(students.success) {
                     render(view: 'attendanceList', model: [token: check.data, attendees: students.data])
                 } else {
                     render(view: '../failure', model: [errorCode: students.errorCode, message: students.message])
                 }
-            } else if(preconditionService.notNull(params, ["student_id", "start_date", "end_date"], new QueryResult<>()).success) {
+            } else if(preconditionService.notNull(params, ["student_id", "start_date", "end_date"], check).success) {
                 def student = courseService.getStudentAttendance(student_id, start_date, end_date)
                 if(student.success) {
                     render(view: 'attendanceList', model: [token: check.data, attendees: student.data])
