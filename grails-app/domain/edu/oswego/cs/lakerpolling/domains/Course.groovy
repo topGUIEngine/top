@@ -5,7 +5,7 @@ class Course implements Serializable{
     String name
     String crn
 
-    static hasMany = [students: User]
+    static hasMany = [students: User, questions: Question]
     static belongsTo = [instructor: User]
 
     static mapping = {
