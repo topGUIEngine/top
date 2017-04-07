@@ -1,8 +1,6 @@
 package edu.oswego.cs.lakerpolling.domains
 
-/**
- * Created by Josh active 3/27/17.
- */
+
 class Attendance implements Serializable{
     Date date
 

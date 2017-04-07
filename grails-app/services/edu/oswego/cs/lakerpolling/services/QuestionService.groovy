@@ -1,12 +1,6 @@
 package edu.oswego.cs.lakerpolling.services
 
-import edu.oswego.cs.lakerpolling.domains.Answer
-import edu.oswego.cs.lakerpolling.domains.Attendance
-import edu.oswego.cs.lakerpolling.domains.Attendee
-import edu.oswego.cs.lakerpolling.domains.AuthToken
-import edu.oswego.cs.lakerpolling.domains.Course
-import edu.oswego.cs.lakerpolling.domains.Question
-import edu.oswego.cs.lakerpolling.domains.User
+import edu.oswego.cs.lakerpolling.domains.*
 import edu.oswego.cs.lakerpolling.util.RoleType
 import grails.transaction.Transactional
 
@@ -32,10 +26,9 @@ class QuestionService {
                     newQuestion.active = false
                     newQuestion.studentAnswers = new ArrayList<>()
                     answerList.each { i -> newQuestion.studentAnswers.add(0) }
-                    println("COURSE: " + course.id + " ANSWERS: " + answerList.size() + " ON: " + newQuestion.active)
                     newQuestion.save(flush: true, failOnError: true)
-                    def attendance = Attendance.findByDateAndCourse(new Date(date), course)
-                    if (attendance == null) attendance = new Attendance(date: new Date(date), course: course)
+                    def attendance = Attendance.findByDateAndCourse(makeDate(date), course)
+                    if (attendance == null) attendance = new Attendance(date: makeDate(date), course: course)
                     course.students.each { s -> new Attendee(attended: false, attendance: attendance, student: s).save(flush: true, failOnError: true) }
                     newQuestion
                 } else null
@@ -49,23 +42,24 @@ class QuestionService {
             if(user.role.getType() == RoleType.STUDENT) {
                 List<String> tempList = answer.indexOf(",") != -1 ? answer.split(",").toList(): [answer]
                 List<Boolean> answerList = new ArrayList<>()
-
                 tempList.forEach {s -> answerList.add(s.asBoolean())}
                 def question = Question.findById(question_id.toLong())
                 if(question) {
-                    def isRight = false
-                    def realAnswers = question.answers
-                    realAnswers.eachWithIndex{ a, i ->
-                        isRight = (a == answerList.get(i))
-                        if(answerList.get(i)) question.studentAnswers.add(i, question.studentAnswers.get(i)++)
-                    }
-                    def attendee = Attendance.findByDateAndCourse(new Date(date), question.course).attendees.find{ a -> a.student == user}
-                    attendee.attended = true
-                    new Answer(correct: isRight, question: question, student: user).save(flush: true, failOnError: true)
-                    attendee.attended
-                }
-            }
-        }
+                    def attendee = Attendance.findByDateAndCourse(makeDate(date), question.course).attendees.find { a -> a.student == user }
+                    if(attendee) {
+                        def isRight = false
+                        def realAnswers = question.answers
+                        realAnswers.eachWithIndex { a, i ->
+                            isRight = (a == answerList.get(i))
+                            if (answerList.get(i)) question.studentAnswers.add(i, question.studentAnswers.get(i) + 1)
+                        }
+                        attendee.attended = true
+                        new Answer(correct: isRight, question: question, student: user).save(flush: true, failOnError: true)
+                        attendee.attended
+                    } else false
+                } else false
+            } else false
+        } else false
     }
 
     def flipQuestion(AuthToken token, String question_id, boolean flipper) {
@@ -79,5 +73,25 @@ class QuestionService {
                 } else false
             } else false
         } else false
+    }
+
+    private Date makeDate() {
+        Calendar calendar = Calendar.getInstance()
+        calendar.setTime(new Date())
+        return removeTime(calendar)
+    }
+
+    private Date makeDate(String input) {
+        Calendar calendar = Calendar.getInstance()
+        calendar.setTime(new Date(input))
+        return removeTime(calendar)
+    }
+
+    private static Date removeTime(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.getTime()
     }
 }

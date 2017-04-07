@@ -26,7 +26,7 @@ class QuestionController {
         }
     }
 
-    def getanswers(String access_token, String question_id) {
+    def getAnswers(String access_token, String question_id) {
         def result = preconditionService.notNull(params, ["access_token",  "question_id"])
 
         if(result.success) {
