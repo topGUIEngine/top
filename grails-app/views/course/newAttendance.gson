@@ -1,0 +1,20 @@
+import edu.oswego.cs.lakerpolling.domains.Attendance
+import edu.oswego.cs.lakerpolling.domains.AuthToken
+
+response.status OK.value()
+
+model {
+    AuthToken token
+    Attendance attendance
+}
+
+json {
+    "success" true
+    data {
+        "accessToken" token.accessToken
+        "attendance" {
+            "id" attendance.id
+            "date" attendance.date
+        }
+    }
+}
