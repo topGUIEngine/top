@@ -73,7 +73,7 @@ class CourseController {
     }
 
     /**
-     * Endpoint to perform delete operation on courses.
+     * Endpoint to perform delete operation active courses.
      * @param access_token - The access token of the requesting user.
      * @param course_id - The id of the course.
      */

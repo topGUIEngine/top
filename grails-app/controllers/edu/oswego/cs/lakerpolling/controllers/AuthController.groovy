@@ -15,7 +15,7 @@ class AuthController {
     UserService userService
 
     /**
-     * Verifies and takes action based on the given idToken query parameter.
+     * Verifies and takes action based active the given idToken query parameter.
      */
     def auth(String idToken) {
         QueryResult<GoogleIdToken> data = verifierService.getVerifiedResults(idToken)

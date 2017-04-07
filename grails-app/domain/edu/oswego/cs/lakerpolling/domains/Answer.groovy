@@ -8,5 +8,6 @@ class Answer {
     static hasOne = [student: User]
 
     static constraints = {
+        answer nullable: true
     }
 }
