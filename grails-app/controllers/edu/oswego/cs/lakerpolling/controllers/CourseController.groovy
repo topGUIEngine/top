@@ -222,28 +222,4 @@ class CourseController {
 
     }
 
-    def postAttendance(String access_token, String course_id) {
-        QueryResult<AuthToken> check = new QueryResult<>()
-        preconditionService.notNull(params, ['access_token', 'course_id'], check)
-        preconditionService.accessToken(access_token, check)
-
-        if (check.success) {
-            if (course_id.isLong()) {
-                long courseId = course_id.toLong()
-                QueryResult<Attendance> result = courseService.createAttendance(check.data, courseId)
-                if (result.success) {
-                    Attendance attendance = result.data
-                    render(view: 'newAttendance', model: [token: check.data, attendance: attendance])
-                } else {
-                    render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
-                }
-            } else {
-                render(view: '../failure', model: [errorCode: org.apache.http.HttpStatus.SC_BAD_REQUEST, message: 'malformed input'])
-            }
-        } else {
-            render(view: '../failure', model: [errorCode: check.errorCode, message: check.message])
-        }
-
-    }
-
 }

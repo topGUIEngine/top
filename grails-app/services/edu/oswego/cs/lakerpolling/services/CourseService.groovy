@@ -394,17 +394,6 @@ class CourseService {
 
     }
 
-    QueryResult<Attendance> createAttendance(AuthToken token, long courseId) {
-        QueryResult<Attendance> result = new QueryResult<>()
-
-        Date date = makeDate()
-        if(Attendance.findByDate(date) == null) {
-
-        }
-
-        result
-    }
-
     private Date makeDate() {
         Calendar calendar = Calendar.getInstance()
         calendar.setTime(new Date())
