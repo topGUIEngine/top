@@ -24,16 +24,15 @@ class CourseController {
      * @param course_id - only needed when searching for a specific course. otherwise input as null
      */
     def courseGet(String access_token, String course_id) {
-        def require = new QueryResult<AuthToken>()
-        preconditionService.notNull(params, ["access_token"], require)
-        preconditionService.accessToken(access_token, require)
+        def require = preconditionService.notNull(params, ["access_token"])
+        def token = preconditionService.accessToken(access_token).data
 
         if (require.success) {
             QueryResult<List<Course>> result = course_id == null ?
-                    courseService.getAllCourses(require.data)
-                    : courseService.getAllCourses(require.data, course_id)
+                    courseService.getAllCourses(token)
+                    : courseService.getAllCourses(token, course_id)
             if (result.success) {
-                render(view: 'courseList', model: [token: require.data, courses: result.data])
+                render(view: 'courseList', model: [token: token, courses: result.data])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }
@@ -51,7 +50,8 @@ class CourseController {
      */
     def postCourse(String access_token, String crn, String name, String user_id) {
         def require = preconditionService.notNull(params, ["access_token", "crn", "name"])
-        AuthToken token = preconditionService.accessToken(access_token, require).data
+        def token = preconditionService.accessToken(access_token, require).data
+
         if (require.success) {
             def adminCreate = preconditionService.notNull(params, ["user_id"])
             def result
@@ -78,20 +78,16 @@ class CourseController {
      * @param course_id - The id of the course.
      */
     def deleteCourse(String access_token, String course_id) {
-        QueryResult<AuthToken> require = new QueryResult<>()
+        def require = preconditionService.notNull(params, ["access_token", "course_id"])
+        def token = preconditionService.accessToken(access_token).data
 
-        preconditionService.notNull(params, ["access_token", "course_id"], require)
-        preconditionService.accessToken(access_token, require)
         if (require.success) {
-
-            QueryResult<Course> result = courseService.deleteCourse(require.data, course_id)
-
+            def result = courseService.deleteCourse(token, course_id)
             if (result.success) {
-                render(view: 'deleteResult', model: [token: require.data])
+                render(view: 'deleteResult', model: [token: token])
             } else {
                 render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
             }
-
         } else {
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
@@ -104,14 +100,13 @@ class CourseController {
      */
 
     def getCourseStudent(String access_token, String course_id) {
-        QueryResult<AuthToken> require = new QueryResult<>()
-        preconditionService.notNull(params, ["access_token", "course_id"], require)
-        preconditionService.accessToken(access_token, require)
+        def require = preconditionService.notNull(params, ["access_token", "course_id"])
+        def token = preconditionService.accessToken(access_token).data
 
         if (require.success) {
-            def results = courseService.getAllStudents(require.data, course_id)
+            def results = courseService.getAllStudents(token, course_id)
             if (results.success) {
-                render(view: 'studentList', model: [token: require.data, courseID: course_id.toLong(), students: results.data])
+                render(view: 'studentList', model: [token: token, courseID: course_id.toLong(), students: results.data])
             } else {
                 render(view: '../failure', model: [errorCode: results.errorCode, message: results.message])
             }
@@ -130,13 +125,10 @@ class CourseController {
      * @param user_id - the user id of the instructor the course will be added to
      */
     def postCourseStudent(String access_token, String course_id, String email) {
-        QueryResult<AuthToken> require = new QueryResult<>()
-
-        preconditionService.notNull(params, ["access_token", "course_id"], require)
-        preconditionService.accessToken(access_token, require)
+        def require = preconditionService.notNull(params, ["access_token", "course_id"])
+        def token = preconditionService.accessToken(access_token).data
 
         if (require.success) {
-            AuthToken token = require.data
             List<String> emails = new ArrayList<>()
 
             if (params.containsKey("file")) {
@@ -151,7 +143,6 @@ class CourseController {
                     }
                 }
             }
-
 
             if (email != null) {
                 emails.add(email)
@@ -169,17 +160,15 @@ class CourseController {
     }
 
     def deleteCourseStudent(String access_token, String course_id, String user_id) {
-        QueryResult<AuthToken> checks = new QueryResult<>()
+        def require = preconditionService.notNull(params, ["access_token", "course_id", "user_id"])
+        def token = preconditionService.accessToken(access_token).data
 
-        preconditionService.notNull(params, ["access_token", "course_id", "user_id"], checks)
-        preconditionService.accessToken(access_token, checks)
-
-        if (checks.success) {
+        if (require.success) {
             if (course_id.isLong()) {
                 List<String> userIds = user_id.indexOf(",") != -1 ? user_id.split(",").toList() : [user_id]
-                QueryResult result = courseService.deleteStudentCourse(checks.data, course_id.toLong(), userIds)
+                def result = courseService.deleteStudentCourse(token, course_id.toLong(), userIds)
                 if (result.success) {
-                    render(view: 'deleteResult', model: [token: checks.data])
+                    render(view: 'deleteResult', model: [token: token])
                 } else {
                     render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
                 }
@@ -188,36 +177,35 @@ class CourseController {
                 render(view: '../failure', model: [errorCode: bad.errorCode, message: bad.message])
             }
         } else {
-            render(view: '../failure', model: [errorCode: checks.errorCode, message: checks.message])
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
 
     }
 
     def getAttendance(String access_token, String course_id, String student_id, String date, String start_date, String end_date) {
-        QueryResult<AuthToken> check = new QueryResult<>()
-        preconditionService.notNull(params, ["access_token", "course_id"], check)
-        preconditionService.accessToken(access_token, check)
+        def require = preconditionService.notNull(params, ["access_token", "course_id"])
+        def token = preconditionService.accessToken(access_token).data
 
-        if (check.success) {
-            if (preconditionService.notNull(params, ["date"], check).success) {
+        if (require.success) {
+            if (preconditionService.notNull(params, ["date"], require).success) {
                 def students = courseService.getAllStudentAttendance(course_id, date)
                 if (students.success) {
-                    render(view: 'attendanceList', model: [token: check.data, attendees: students.data])
+                    render(view: 'attendanceList', model: [token: token, attendees: students.data])
                 } else {
                     render(view: '../failure', model: [errorCode: students.errorCode, message: students.message])
                 }
-            } else if (preconditionService.notNull(params, ["student_id", "start_date", "end_date"], check).success) {
+            } else if (preconditionService.notNull(params, ["student_id", "start_date", "end_date"], require).success) {
                 def student = courseService.getStudentAttendance(student_id, start_date, end_date)
                 if (student.success) {
-                    render(view: 'attendanceList', model: [token: check.data, attendees: student.data])
+                    render(view: 'attendanceList', model: [token: token, attendees: student.data])
                 } else {
                     render(view: '../failure', model: [errorCode: student.errorCode, message: student.message])
                 }
             } else {
-                render(view: '../failure', model: [errorCode: check.errorCode, message: check.message])
+                render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
             }
         } else {
-            render(view: '../failure', model: [errorCode: check.errorCode, message: check.message])
+            render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
         }
 
     }
