@@ -9,13 +9,13 @@ class QuestionController {
     PreconditionService preconditionService
     QuestionService questionService
 
-    def createQuestion(String access_token, String course_id, String question, String answers, String date) {
+    def createQuestion(String access_token, String course_id, String question, String answers) {
 
-        def result = preconditionService.notNull(params, ["access_token", "answers" , "course_id", "date"])
+        def result = preconditionService.notNull(params, ["access_token", "answers" , "course_id"])
         def token = preconditionService.accessToken(access_token).data
 
         if(result.success) {
-            def newQuestion = questionService.createQuestion(token, question, course_id, answers, date)
+            def newQuestion = questionService.createQuestion(token, question, course_id, answers)
             if(newQuestion) {
                 render(view: 'create', model: [question: newQuestion, token: token])
             } else {
@@ -43,12 +43,12 @@ class QuestionController {
         }
     }
 
-    def answerQuestion(String access_token, String question_id, String answer, String date) {
+    def answerQuestion(String access_token, String question_id, String answer) {
         def result = preconditionService.notNull(params, ["access_token", "question_id", "answer"])
         def token = preconditionService.accessToken(access_token).data
 
         if(result.success) {
-            if(questionService.answerQuestion(token, question_id, answer, date)) {
+            if(questionService.answerQuestion(token, question_id, answer)) {
                 render(view: 'answerQuestion', model: [token: token])
             } else {
                 render(view: '../failure', model: [errorCode: 400, message: "could not answer question"])

@@ -7,7 +7,7 @@ import grails.transaction.Transactional
 @Transactional
 class QuestionService {
 
-    def createQuestion(AuthToken token, String question, String course_id, String answers, String date) {
+    def createQuestion(AuthToken token, String question, String course_id, String answers) {
         def user = token.user
         List<String> tempList = answers.indexOf(",") != -1 ? answers.split(",").toList(): [answers]
         List<Boolean> answerList = new ArrayList<>()
@@ -33,9 +33,10 @@ class QuestionService {
                     answerList.each { i -> newQuestion.studentAnswers.add(0) }
                     println("new question student list size: " + newQuestion.studentAnswers.size())
                     newQuestion.save(flush: true, failOnError: true)
-                    def attendance = Attendance.findByDateAndCourse(makeDate(date), course)
+                    def attendance = Attendance.findByDateAndCourse(makeDate(), course)
                     if (attendance == null) {
-                        attendance = new Attendance(date: makeDate(date), course: course)
+                        attendance = new Attendance(date: makeDate(), course: course)
+                        attendance.save(flush: true, failOnError: true)
                         course.students.each { s -> new Attendee(attended: false, attendance: attendance, student: s).save(flush: true, failOnError: true) }
                     }
                     newQuestion
@@ -44,7 +45,7 @@ class QuestionService {
         } else null
     }
 
-    def answerQuestion(AuthToken token, String question_id, String answer, String date) {
+    def answerQuestion(AuthToken token, String question_id, String answer) {
         def user = token.user
         if(user) {
             if(user.role.getType() == RoleType.STUDENT) {
@@ -58,7 +59,7 @@ class QuestionService {
                 def question = Question.findById(question_id.toLong())
                 if(question) {
                     if(question.active) {
-                        def attendee = Attendance.findByDateAndCourse(makeDate(date), question.course).attendees.find { a -> a.student == user }
+                        def attendee = Attendance.findByDateAndCourse(makeDate(), question.course).attendees.find { a -> a.student == user }
                         if (attendee) {
                             def isRight = false
                             def realAnswers = question.answers
