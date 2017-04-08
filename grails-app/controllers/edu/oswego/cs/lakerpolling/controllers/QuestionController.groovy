@@ -17,7 +17,7 @@ class QuestionController {
         if(result.success) {
             def newQuestion = questionService.createQuestion(token, question, course_id, answers, date)
             if(newQuestion) {
-                render(view: 'create', model: [question: newQuestion])
+                render(view: 'create', model: [question: newQuestion, token: token])
             } else {
                 render(view: '../failure', model: [errorCode: 400, message: "could not find course!"])
             }
@@ -28,11 +28,12 @@ class QuestionController {
 
     def getAnswers(String access_token, String question_id) {
         def result = preconditionService.notNull(params, ["access_token",  "question_id"])
+        def token = preconditionService.accessToken(access_token).data
 
         if(result.success) {
             def question = Question.findById(question_id.toLong())
             if(question) {
-                if(!question.active) render(view: 'getAnswer', model: [question: question])
+                if(!question.active) render(view: 'getAnswer', model: [question: question, token: token])
                 else render(view: '../failure', model: [errorCode: 400, message: "question still enabled"])
             } else {
                 render(view: '../failure', model: [errorCode: 400, message: "could not find question!"])
@@ -48,7 +49,7 @@ class QuestionController {
 
         if(result.success) {
             if(questionService.answerQuestion(token, question_id, answer, date)) {
-                render(view: 'answerQuestion')
+                render(view: 'answerQuestion', model: [token: token])
             } else {
                 render(view: '../failure', model: [errorCode: 400, message: "could not answer question"])
             }
@@ -63,10 +64,23 @@ class QuestionController {
 
         if(result.success) {
             if(questionService.flipQuestion(token, question_id, flip)) {
-                render(view: 'answerQuestion')
+                render(view: 'answerQuestion', model: [token: token])
             } else {
                 render(view: '../failure', model: [errorCode: 400, message: "something couldn't be found"])
             }
         }
+    }
+
+    def getQuestion(String access_token, String course_id) {
+        def result = preconditionService.notNull(params, ["access_token", "course_id"])
+        def token = preconditionService.accessToken(access_token).data
+
+        if(result.success) {
+            def question = questionService.getQuestion(token, course_id)
+            if(question) {
+                def ids = question.collect{q -> q.id}
+                render(view: 'getQuestion', model:[token: token, questionId: ids])
+            } else render(view: '../failure', model: [errorCode: 400, message: "no questions"])
+        } else render(view: '../failure', model: [errorCode: result.errorCode, message: result.message])
     }
 }

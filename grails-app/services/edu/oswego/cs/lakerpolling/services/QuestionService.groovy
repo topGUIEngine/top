@@ -34,8 +34,10 @@ class QuestionService {
                     println("new question student list size: " + newQuestion.studentAnswers.size())
                     newQuestion.save(flush: true, failOnError: true)
                     def attendance = Attendance.findByDateAndCourse(makeDate(date), course)
-                    if (attendance == null) attendance = new Attendance(date: makeDate(date), course: course)
-                    course.students.each { s -> new Attendee(attended: false, attendance: attendance, student: s).save(flush: true, failOnError: true) }
+                    if (attendance == null) {
+                        attendance = new Attendance(date: makeDate(date), course: course)
+                        course.students.each { s -> new Attendee(attended: false, attendance: attendance, student: s).save(flush: true, failOnError: true) }
+                    }
                     newQuestion
                 } else null
             } else null
@@ -92,6 +94,20 @@ class QuestionService {
                 } else false
             } else false
         } else false
+    }
+
+    def getQuestion(AuthToken token, String course_id) {
+        def user = token.user
+        if(user) {
+            if(user.role.type == RoleType.STUDENT) {
+                def course = Course.findById(course_id.toLong())
+                if(course) {
+                    def question = course.questions
+                    if(question) question
+                    else null
+                }
+            }
+        }
     }
 
     private Date makeDate() {
