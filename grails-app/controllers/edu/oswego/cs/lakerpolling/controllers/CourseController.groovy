@@ -199,15 +199,21 @@ class CourseController {
         preconditionService.accessToken(access_token, check)
 
         if (check.success) {
-            if (preconditionService.notNull(params, ["date"], check).success) {
+            if (preconditionService.notNull(params, ["date"]).success) {
                 def students = courseService.getAllStudentAttendance(course_id, date)
                 if (students.success) {
                     render(view: 'attendanceList', model: [token: check.data, attendees: students.data])
                 } else {
                     render(view: '../failure', model: [errorCode: students.errorCode, message: students.message])
                 }
-            } else if (preconditionService.notNull(params, ["student_id", "start_date", "end_date"], check).success) {
-                def student = courseService.getStudentAttendance(student_id, start_date, end_date)
+            } else if (preconditionService.notNull(params, ["student_id", "start_date", "end_date"]).success) {
+                List<String> revisedStart = start_date.indexOf('-') != -1 ? start_date.split("-").toList() : null
+                List<String> revisedEnd = end_date.indexOf('-') != -1 ? end_date.split("-").toList() : null
+                String start = revisedStart.get(1) + "/" + revisedStart.get(2) + "/" + revisedStart.get(0)
+                String end = revisedEnd.get(1) + "/" + revisedEnd.get(2) + "/" + revisedEnd.get(0)
+
+                println("START: " + start + " END: " + end)
+                def student = courseService.getStudentAttendance(student_id, start, end)
                 if (student.success) {
                     render(view: 'attendanceList', model: [token: check.data, attendees: student.data])
                 } else {
