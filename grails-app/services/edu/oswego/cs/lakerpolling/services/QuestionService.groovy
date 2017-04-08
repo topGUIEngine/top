@@ -106,9 +106,26 @@ class QuestionService {
                     def question = course.questions
                     if(question) question
                     else null
-                }
-            }
-        }
+                } else null
+            } else null
+        } else null
+    }
+
+    def getActiveQuestion(AuthToken token, String course_id) {
+        def user = token.user
+        if(user) {
+            if(user.role.type == RoleType.STUDENT) {
+                def course = Course.findById(course_id.toLong())
+                if(course) {
+                    def question = course.questions
+                    if(question) {
+                        def active = question.find{q -> q.active}
+                        if(active) active
+                        else null
+                    } else null
+                } else null
+            } else null
+        } else null
     }
 
     private Date makeDate() {
