@@ -1,7 +1,5 @@
 package edu.oswego.cs.lakerpolling.controllers
 
-import edu.oswego.cs.lakerpolling.domains.Attendance
-import edu.oswego.cs.lakerpolling.domains.AuthToken
 import edu.oswego.cs.lakerpolling.domains.Course
 import edu.oswego.cs.lakerpolling.services.CourseListParserService
 import edu.oswego.cs.lakerpolling.services.CourseService
@@ -187,9 +185,6 @@ class CourseController {
         def token = preconditionService.accessToken(access_token).data
 
         if (require.success) {
-            if (preconditionService.notNull(params, ["date"], require).success) {
-                def students = courseService.getAllStudentAttendance(course_id, date)
-        if (check.success) {
             if (preconditionService.notNull(params, ["date"]).success) {
                 List<String> revisedDate = date.indexOf('-') != -1 ? date.split("-").toList() : null
                 String reDate = revisedDate.get(1) + "/" + revisedDate.get(2) + "/" + revisedDate.get(0)
@@ -204,18 +199,15 @@ class CourseController {
                 List<String> revisedEnd = end_date.indexOf('-') != -1 ? end_date.split("-").toList() : null
                 String start = revisedStart.get(1) + "/" + revisedStart.get(2) + "/" + revisedStart.get(0)
                 String end = revisedEnd.get(1) + "/" + revisedEnd.get(2) + "/" + revisedEnd.get(0)
-
                 println("START: " + start + " END: " + end)
                 def student = courseService.getStudentAttendance(student_id, start, end)
-            } else if (preconditionService.notNull(params, ["student_id", "start_date", "end_date"], require).success) {
-                def student = courseService.getStudentAttendance(student_id, start_date, end_date)
                 if (student.success) {
                     render(view: 'attendanceList', model: [token: token, attendees: student.data])
                 } else {
                     render(view: '../failure', model: [errorCode: student.errorCode, message: student.message])
                 }
             } else {
-                render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
+                render(view: '../failure', model: [errorCode: HttpStatus.BAD_REQUEST.value(), message: "Missing parameter"])
             }
         } else {
             render(view: '../failure', model: [errorCode: require.errorCode, message: require.message])
