@@ -200,7 +200,9 @@ class CourseController {
 
         if (check.success) {
             if (preconditionService.notNull(params, ["date"]).success) {
-                def students = courseService.getAllStudentAttendance(course_id, date)
+                List<String> revisedDate = date.indexOf('-') != -1 ? date.split("-").toList() : null
+                String reDate = revisedDate.get(1) + "/" + revisedDate.get(2) + "/" + revisedDate.get(0)
+                def students = courseService.getAllStudentAttendance(course_id, reDate)
                 if (students.success) {
                     render(view: 'attendanceList', model: [token: check.data, attendees: students.data])
                 } else {
