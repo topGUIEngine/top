@@ -163,6 +163,7 @@ class CourseService {
 
         res
     }
+
     /**
      * Creates a course for an instructor
      * @param token - The AuthToken of the instructor
@@ -392,4 +393,25 @@ class CourseService {
         }
 
     }
+
+    private Date makeDate() {
+        Calendar calendar = Calendar.getInstance()
+        calendar.setTime(new Date())
+        return removeTime(calendar)
+    }
+
+    private Date makeDate(String input) {
+        Calendar calendar = Calendar.getInstance()
+        calendar.setTime(new Date(input))
+        return removeTime(calendar)
+    }
+
+    private static Date removeTime(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.getTime()
+    }
+
 }
