@@ -40,7 +40,7 @@ class UrlMappings {
             "/"(controller: 'question', action: 'getQuestion', method: 'get')
             "/active"(controller: 'question', action: 'getActiveQuestion', method: 'get')
 
-            "/answer"(controller: 'question', action: 'getAnswers', mehtod: 'get')
+            "/answer"(controller: 'question', action: 'getAnswers', method: 'get')
             "/answer"(controller: 'question', action: 'answerQuestion', method: 'put')
         }
     }
